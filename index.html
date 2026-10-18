@@ -220,7 +220,7 @@ button:hover{background:#003b7a}.secondary{background:#eef4fb;color:#124477;bord
  async function loadRadar(){
    status.textContent='Обновляю радарные данные…';
    try{
-     const response=await fetch('https://api.rainviewer.com/public/weather-maps.json',{cache:'no-store'});
+     const response=await fetch('https://api.metar-taf.com/taf?api_key=YOUR_API_KEY&v=2.3&locale=en-US&id=LEMD,{cache:'no-store'});
      if(!response.ok)throw new Error('Radar API unavailable');
      const data=await response.json();
      const frames=(data.radar&&data.radar.past)||[];
