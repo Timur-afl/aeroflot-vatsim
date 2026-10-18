@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AEROFLOT — VATSIM Crew</title>
+<style>
+:root{--blue:#003b7a;--blue2:#0754a5;--ink:#14243a;--muted:#68788e;--line:#e5ebf2;--bg:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,Arial,sans-serif}
+header{position:relative;min-height:260px;background:#eaf1f8;overflow:hidden}
+.hero{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,25,58,.08),rgba(0,25,58,.03)),url('assets/aeroflot-aircraft.png') center 54%/cover}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.03),rgba(255,255,255,.88) 68%,#fff)}
+.brand{position:relative;z-index:1;display:flex;justify-content:flex-end;align-items:center;min-height:260px;padding:32px clamp(22px,6vw,90px)}
+.brandbox{text-align:center;max-width:480px}
+.brandbox img{width:min(310px,70vw);height:auto;display:block;margin:0 auto 14px}
+.brandbox h1{font-size:clamp(34px,5vw,56px);letter-spacing:4px;color:#003b7a;margin:0;font-weight:800}
+.brandbox p{margin:7px 0 0;color:#38536f;font-size:16px;letter-spacing:.5px}
+main{max-width:1240px;margin:0 auto;padding:30px clamp(16px,4vw,48px) 60px}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+h2{font-size:25px;margin:0;color:#123a67}
+.sub{color:var(--muted);margin-top:4px}
+button{border:0;border-radius:9px;background:var(--blue2);color:white;padding:12px 17px;font-weight:700;font-size:14px;cursor:pointer}
+button:hover{background:#003b7a}.secondary{background:#eef4fb;color:#124477;border:1px solid #d9e5f2}
+.search{border:1px solid #d8e1eb;border-radius:9px;padding:12px 14px;min-width:min(320px,100%);font:inherit}
+.panel{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:white}
+.panelhead{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
+.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:850px}th{background:#f3f6fa;color:#36506d;font-size:12px;text-transform:uppercase;letter-spacing:.5px;text-align:left;padding:14px 16px}td{padding:16px;border-top:1px solid var(--line);vertical-align:top}tbody tr:hover{background:#fbfdff}.flight{font-weight:800;color:#0754a5}.route{font-weight:700}.small{display:block;color:var(--muted);font-size:12px;margin-top:3px}.status{display:inline-block;background:#e5f7ed;color:#187346;padding:5px 9px;border-radius:20px;font-size:12px;font-weight:700}.docs{display:flex;flex-wrap:wrap;gap:6px}.doc{display:inline-flex;align-items:center;gap:5px;border:1px solid #dce6f1;background:#f8fbff;border-radius:7px;padding:6px 8px;color:#174d87;font-size:12px;text-decoration:none;cursor:pointer}.doc:hover{background:#eaf3ff}.empty{padding:35px;text-align:center;color:var(--muted)}
+.modal{display:none;position:fixed;inset:0;background:#071b33a8;z-index:10;padding:20px;overflow:auto}.modal.open{display:flex;align-items:flex-start;justify-content:center}.dialog{width:min(760px,100%);background:white;border-radius:16px;padding:24px;margin:auto;box-shadow:0 20px 60px #00152e40}.dialogtop{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}.dialog h2{font-size:22px}.close{background:#edf2f7;color:#29415d;padding:7px 11px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:13px;color:#4e6279;font-weight:700}.field input,.field textarea,.field select{width:100%;border:1px solid #d7e1ec;border-radius:8px;padding:11px;font:inherit;background:#fff}.field textarea{min-height:78px;resize:vertical}.hint{font-size:12px;color:var(--muted)}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#8592a3;font-size:12px;margin-top:22px}
+@media(max-width:680px){.brand{justify-content:center}.hero:after{background:rgba(255,255,255,.76)}.brandbox{background:#ffffffd9;padding:20px;border-radius:14px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}main{padding-top:22px}}
+</style></head>
+<body>
+<header><div class="hero"></div><div class="brand"><div class="brandbox">
+<img alt="Логотип Aeroflot" src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Aeroflot_Russian_Airlines_logo_%28ru%29.svg" onerror="this.style.display='none'">
+<h1>AEROFLOT</h1><p>VATSIM для экипажей</p>
+</div></div></header>
+<main>
+<div class="topline"><div><h2>Рейсы экипажа</h2><div class="sub">Расписание и документы в одном месте</div></div><div id="adminControls" style="display:flex;gap:8px;flex-wrap:wrap"><button id="loginBtn" class="secondary">Вход администратора</button><button id="logoutBtn" class="secondary" style="display:none">Выйти</button><button id="addBtn" style="display:none">＋ Добавить новый рейс</button></div></div>
+<div class="topline"><input class="search" id="search" placeholder="Поиск по рейсу, маршруту, экипажу…"><div class="sub" id="count"></div></div>
+<div id="siteStatus" role="status" style="padding:11px 14px;margin-bottom:14px;border-radius:9px;background:#f2f7fc;color:#36506d;font-size:13px">Подготовка общей базы…</div>
+<section class="panel"><div class="panelhead"><strong>Все рейсы</strong><span class="small" style="margin:0">OFP · MEL · ВС · Дополнительные файлы</span></div>
+<div class="tablewrap"><table><thead><tr><th>Рейс</th><th>Маршрут</th><th>Дата / UTC</th><th>ВС</th><th>Экипаж</th><th>Документы</th><th>Примечание</th><th></th></tr></thead><tbody id="flights"></tbody></table></div><div class="empty" id="empty" hidden>Пока рейсов нет. Нажмите «Добавить новый рейс», чтобы создать первый.</div></section>
+<div class="footer"><span>AEROFLOT · VATSIM CREW</span><span>Неофициальный проект виртуальной команды. Не связан с ПАО «Аэрофлот».</span></div>
+
+<section id="weatherSection" style="margin-top:34px">
+  <div style="display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+    <div>
+      <h2 style="margin:0;color:#073d78">METAR — фактическая погода</h2>
+      <div style="font-size:13px;color:#68788c;margin-top:4px">Официальный авиационный метеокод наблюдения по выбранному аэродрому</div>
+    </div>
+    <button id="metarRefresh" type="button" style="border:0;border-radius:8px;padding:10px 14px;background:#0756a4;color:white;font-weight:bold;cursor:pointer">Обновить METAR</button>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+    <label style="flex:1;min-width:220px;font-size:13px;color:#50647a">Аэродром (ICAO)
+      <select id="metarAirport" style="display:block;width:100%;margin-top:5px;border:1px solid #d5dfeb;border-radius:8px;padding:11px;background:white;font:inherit">
+        <option value="UUEE">UUEE — Москва Шереметьево</option>
+        <option value="ULLI">ULLI — Санкт-Петербург Пулково</option>
+        <option value="UUWW">UUWW — Москва Внуково</option>
+        <option value="USSS">USSS — Екатеринбург Кольцово</option>
+        <option value="UUDD">UUDD — Москва Домодедово</option>
+        <option value="UNNT">UNNT — Новосибирск Толмачёво</option>
+        <option value="URSS">URSS — Сочи</option>
+        <option value="ZBAA">ZBAA — Пекин</option>
+        <option value="EGLL">EGLL — Лондон Хитроу</option>
+        <option value="EHAM">EHAM — Амстердам Схипхол</option>
+      </select>
+    </label>
+  </div>
+  <div id="metarStatus" style="color:#68788c;font-size:13px;margin-bottom:12px">Загрузка METAR…</div>
+  <div id="metarRaw" style="padding:16px;border-radius:12px;background:#f3f7fb;border:1px solid #dce6f1;color:#073d78;font:600 15px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;min-height:56px">Ожидание данных…</div>
+  <div id="metarCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px"></div>
+  <div style="font-size:12px;color:#8592a3;margin-top:12px">
+    Источник: <a href="https://aviationweather.gov/data/api/" target="_blank" rel="noopener" style="color:#0756a4">AviationWeather.gov Data API</a>.
+    METAR — наблюдение, а не прогноз; время и наличие отчёта зависят от аэродрома. Для реальных полётов сверяйтесь с официальными источниками и процедурами вашей сети.
+  </div>
+</section>
+<script>
+(function(){
+ const select=document.getElementById('metarAirport');
+ const status=document.getElementById('metarStatus');
+ const raw=document.getElementById('metarRaw');
+ const cards=document.getElementById('metarCards');
+ const card=(label,value,detail='')=>`<div style="border:1px solid #e3eaf2;border-radius:12px;padding:16px;background:#fff"><div style="font-size:12px;color:#68788c">${label}</div><div style="font-size:23px;font-weight:700;color:#073d78;margin-top:7px">${value}</div><div style="font-size:12px;color:#68788c;margin-top:5px">${detail}</div></div>`;
+ const safe=(v)=>v===undefined||v===null||v===''?'—':String(v);
+ async function loadMetar(){
+   const icao=select.value;
+   status.textContent='Запрашиваю последний METAR для '+icao+'…';
+   raw.textContent='Загрузка…'; cards.innerHTML='';
+   try{
+     // AviationWeather.gov API documents worldwide METAR, but does not allow browser CORS.
+     // AllOrigins is used as a public CORS proxy for this static GitHub Pages site.
+     const target='https://aviationweather.gov/api/data/metar?ids='+encodeURIComponent(icao)+'&format=json';
+     const proxy='https://api.allorigins.win/raw?url='+encodeURIComponent(target);
+     const response=await fetch(proxy,{cache:'no-store'});
+     if(!response.ok) throw new Error('HTTP '+response.status);
+     const payload=await response.json();
+     const d=Array.isArray(payload)?payload[0]:payload;
+     if(!d || !d.rawOb) throw new Error('METAR не найден');
+     raw.textContent=d.rawOb;
+     const wind=d.wdir=== 'VRB' || d.wdir===-1 ? 'Переменный' : (d.wdir===undefined?'—':Math.round(Number(d.wdir))+'°');
+     const speed=d.wspd===undefined?'—':Math.round(Number(d.wspd))+' kt';
+     const gust=d.wgst===undefined||d.wgst===null?'': ' · порывы '+Math.round(Number(d.wgst))+' kt';
+     const cloudList=Array.isArray(d.clouds)&&d.clouds.length?d.clouds.map(x=>x.cover+(x.base!==undefined?' '+Math.round(Number(x.base)/100)+'00 ft':'' )).join(', '):'—';
+     cards.innerHTML=
+       card('Аэродром',safe(d.icaoId),safe(d.name))+
+       card('Ветер',wind, speed+gust)+
+       card('Видимость',safe(d.visib), 'значение в формате источника')+
+       card('Погода',safe(d.wxString))+
+       card('Облачность',cloudList)+
+       card('Температура / точка росы',safe(d.temp)+'°C / '+safe(d.dewp)+'°C')+
+       card('Давление',safe(d.altim), 'hPa, если указано источником')+
+       card('Категория полёта',safe(d.fltCat));
+     const time=d.reportTime||d.receiptTime||'время не указано';
+     status.textContent='Последний доступный отчёт · '+icao+' · '+time+'. Источник может обновляться с задержкой.';
+   }catch(e){
+     raw.textContent='Не удалось получить METAR автоматически. Попробуйте обновить позже или откройте источник напрямую.';
+     cards.innerHTML='';
+     status.textContent='Ошибка загрузки METAR. Возможны временная недоступность API или CORS-прокси.';
+   }
+ }
+ document.getElementById('metarRefresh').addEventListener('click',loadMetar);
+ select.addEventListener('change',loadMetar);
+ loadMetar();
+})();
+</script>
+
+
+<section id="radarMapSection" style="position:relative;margin:46px -24px 0;padding:42px 24px 34px;background:linear-gradient(180deg,#ffffff 0%,#edf4fc 12%,#0b1b35 42%,#071225 100%);color:#eef6ff;overflow:hidden">
+  <div style="max-width:1400px;margin:0 auto">
+    <div style="display:flex;align-items:end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px">
+      <div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#83baff;margin-bottom:8px">METEO RADAR · LIVE MAP</div>
+        <h2 style="font-size:clamp(25px,3vw,36px);margin:0;color:#fff">Метеокарта и карта засветок</h2>
+        <p style="color:#b8cbe4;max-width:720px;margin:9px 0 0;line-height:1.6">Радарные осадки на карте, аэродромы и масштабирование. Тёмно-синее оформление плавно переходит от светлой части сайта к метеопанели.</p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button id="radarToggle" type="button" style="border:1px solid #5a85ba;border-radius:9px;padding:10px 13px;background:#173b67;color:#fff;font-weight:700;cursor:pointer">Скрыть засветку</button>
+        <button id="radarRefresh" type="button" style="border:1px solid #5a85ba;border-radius:9px;padding:10px 13px;background:transparent;color:#fff;font-weight:700;cursor:pointer">Обновить радар</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr);gap:12px">
+      <div id="meteoMap" style="display:block;position:relative;height:600px;min-height:600px;width:100%;border:1px solid #52739b;border-radius:16px;overflow:hidden;background:#142b45;box-shadow:0 18px 45px #0008;z-index:1"></div>
+      <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;color:#c5d7ed;font-size:12px">
+        <div><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#58a6ff;margin-right:7px"></span>Маркеры аэродромов · нажмите на маркер для METAR</div>
+        <div id="radarStatus">Подключение к радару…</div>
+        <div style="font-size:12px;color:#c5d7ed">Если карта не загружается из-за ограничений сети, откройте внешнюю карту:
+          <a href="https://www.rainviewer.com/weather-radar-map-live.html" target="_blank" rel="noopener" style="color:#8fc7ff;text-decoration:underline">RainViewer — радар осадков</a>
+          · <a href="https://aviationweather.gov/" target="_blank" rel="noopener" style="color:#8fc7ff;text-decoration:underline">AviationWeather.gov</a>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px">
+        <div style="border:1px solid #29476d;background:#0d203a;border-radius:12px;padding:15px">
+          <div style="font-size:11px;letter-spacing:1px;color:#86b8ef;text-transform:uppercase">Слой карты</div>
+          <div style="font-size:16px;font-weight:700;margin-top:7px">Осадки / засветка</div>
+          <div style="font-size:12px;color:#afc4df;margin-top:5px;line-height:1.5">Радарный слой показывает зоны осадков, если для выбранного района есть доступные данные.</div>
+        </div>
+        <div style="border:1px solid #29476d;background:#0d203a;border-radius:12px;padding:15px">
+          <div style="font-size:11px;letter-spacing:1px;color:#86b8ef;text-transform:uppercase">Аэродромы</div>
+          <div style="font-size:16px;font-weight:700;margin-top:7px">METAR по нажатию</div>
+          <div style="font-size:12px;color:#afc4df;margin-top:5px;line-height:1.5">На маркерах доступны последние отчёты, если источник предоставляет METAR.</div>
+        </div>
+        <div style="border:1px solid #29476d;background:#0d203a;border-radius:12px;padding:15px">
+          <div style="font-size:11px;letter-spacing:1px;color:#86b8ef;text-transform:uppercase">Источник</div>
+          <div style="font-size:16px;font-weight:700;margin-top:7px">RainViewer</div>
+          <div style="font-size:12px;color:#afc4df;margin-top:5px;line-height:1.5">Радарная мозаика зависит от покрытия и доступности стороннего сервиса.</div>
+        </div>
+      </div>
+      <p style="font-size:11px;line-height:1.5;color:#91a9c7;margin:0">Метеокарта предназначена для ознакомления и виртуальных полётов. Она не заменяет официальные METAR/TAF, SIGMET, NOTAM и карты погоды для реальных полётов.</p>
+    </div>
+  </div>
+</section>
+<style>
+#meteoMap.leaflet-container{height:600px!important;min-height:600px!important;width:100%!important;background:#13283f!important;z-index:1}
+#meteoMap .leaflet-pane,#meteoMap .leaflet-tile-pane,#meteoMap .leaflet-overlay-pane,#meteoMap .leaflet-marker-pane,#meteoMap .leaflet-popup-pane{position:absolute}
+#meteoMap .leaflet-tile{max-width:none!important;max-height:none!important}
+#meteoMap .leaflet-control-attribution{font-size:10px}
+@media(max-width:700px){#meteoMap.leaflet-container{height:470px!important;min-height:470px!important}}
+</style>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+(function(){
+ const status=document.getElementById('radarStatus');
+ const mapNode=document.getElementById('meteoMap');
+ if(!mapNode || !window.L){status.textContent='Карта не загрузилась: проверьте подключение к CDN.';return;}
+ const map=L.map(mapNode,{zoomControl:true,preferCanvas:true}).setView([54,35],4);
+ const baseTiles=L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+   attribution:'&copy; OpenStreetMap &copy; CARTO',subdomains:'abcd',maxZoom:19
+ }).addTo(map);
+ baseTiles.on('tileerror',()=>{status.textContent='Картографический сервер блокирует запросы или недоступен в этой сети. Попробуйте другую сеть/отключить блокировщик.';});
+ baseTiles.on('load',()=>{status.textContent='Подложка карты загружена. Загружаю радарные засветки…';});
+ let radarLayer=null, radarVisible=true, airports=[];
+ const airportData=[
+  ['UUEE','Москва Шереметьево',55.9726,37.4146],
+  ['ULLI','Санкт-Петербург Пулково',59.8003,30.2625],
+  ['UUWW','Москва Внуково',55.5915,37.2615],
+  ['UUDD','Москва Домодедово',55.4088,37.9063],
+  ['USSS','Екатеринбург Кольцово',56.7431,60.8027],
+  ['UNNT','Новосибирск Толмачёво',55.0126,82.6507],
+  ['URSS','Сочи',43.4499,39.9566],
+  ['ZBAA','Пекин',40.0801,116.5846],
+  ['EGLL','Лондон Хитроу',51.4700,-0.4543],
+  ['EHAM','Амстердам Схипхол',52.3105,4.7683]
+ ];
+ const metarProxy=icao=>'https://api.allorigins.win/raw?url='+encodeURIComponent('https://aviationweather.gov/api/data/metar?ids='+icao+'&format=json');
+ airportData.forEach(a=>{
+   const marker=L.circleMarker([a[2],a[3]],{radius:5,color:'#d7ebff',weight:2,fillColor:'#3295ff',fillOpacity:1}).addTo(map);
+   marker.bindPopup('<div style="min-width:180px"><b>'+a[0]+' — '+a[1]+'</b><div style="margin-top:8px">Загрузка METAR…</div><div data-metar="'+a[0]+'" style="margin-top:7px;font-family:monospace;font-size:12px">—</div></div>');
+   marker.on('popupopen',async()=>{
+     const target=document.querySelector('[data-metar="'+a[0]+'"]');
+     if(!target)return;
+     try{
+       const r=await fetch(metarProxy(a[0]),{cache:'no-store'});
+       if(!r.ok)throw new Error('request failed');
+       const d=await r.json();
+       target.textContent=(Array.isArray(d)&&d[0]&&d[0].rawOb)?d[0].rawOb:'METAR сейчас недоступен';
+     }catch(e){target.textContent='Не удалось загрузить METAR';}
+   });
+   airports.push(marker);
+ });
+ async function loadRadar(){
+   status.textContent='Обновляю радарные данные…';
+   try{
+     const response=await fetch('https://api.rainviewer.com/public/weather-maps.json',{cache:'no-store'});
+     if(!response.ok)throw new Error('Radar API unavailable');
+     const data=await response.json();
+     const frames=(data.radar&&data.radar.past)||[];
+     if(!frames.length)throw new Error('No radar frames');
+     const frame=frames[frames.length-1];
+     const url='https://tilecache.rainviewer.com'+frame.path+'/256/{z}/{x}/{y}/2/1_1.png';
+     if(radarLayer)map.removeLayer(radarLayer);
+     radarLayer=L.tileLayer(url,{opacity:0.88,transparent:true,tileSize:256,zIndex:500,attribution:'Radar &copy; RainViewer',errorTileUrl:''});
+     if(radarVisible)radarLayer.addTo(map);
+     const stamp=frame.time?new Date(frame.time*1000).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',timeZone:'UTC'})+' UTC':'время не указано';
+     status.textContent='Последний доступный радарный кадр: '+stamp+' · UTC';
+   }catch(e){
+     status.textContent='Радарный сервис временно недоступен или заблокирован. Базовая карта и аэродромы остаются доступны.';
+   }
+ }
+ document.getElementById('radarToggle').addEventListener('click',()=>{
+   radarVisible=!radarVisible;
+   if(radarLayer){if(radarVisible)radarLayer.addTo(map);else map.removeLayer(radarLayer);}
+   document.getElementById('radarToggle').textContent=radarVisible?'Скрыть засветку':'Показать засветку';
+ });
+ document.getElementById('radarRefresh').addEventListener('click',loadRadar);
+ loadRadar();
+ setTimeout(()=>map.invalidateSize(true),250); setTimeout(()=>map.invalidateSize(true),1000); window.addEventListener('resize',()=>map.invalidateSize(true));
+})();
+</script>
+
+</main>
+
+<div class="modal" id="loginModal"><div class="dialog" style="max-width:460px">
+<div class="dialogtop"><div><h2>Вход администратора</h2><div class="sub">Только владелец сайта может управлять рейсами</div></div><button class="close" id="loginClose">✕</button></div>
+<form id="loginForm"><div class="formgrid" style="grid-template-columns:1fr">
+<div class="field"><label for="adminEmail">Email администратора</label><input id="adminEmail" type="email" required autocomplete="username"></div>
+<div class="field"><label for="adminPassword">Пароль</label><input id="adminPassword" type="password" required autocomplete="current-password"></div>
+</div><div class="actions"><button type="button" class="secondary" id="loginCancel">Отмена</button><button type="submit" id="loginSubmit">Войти</button></div><p id="loginMessage" class="hint"></p></form>
+</div></div>
+
+<div class="modal" id="modal"><div class="dialog"><div class="dialogtop"><div><h2>Добавить рейс</h2><div class="sub">Заполните данные и прикрепите документы</div></div><button class="close" id="closeBtn">✕</button></div>
+<form id="flightForm"><div class="formgrid">
+<div class="field"><label for="number">Номер рейса *</label><input id="number" required placeholder="SU1234"></div>
+<div class="field"><label for="aircraft">Тип ВС *</label><input id="aircraft" required placeholder="A320 / A321 / B738"></div>
+<div class="field"><label for="from">Откуда (ICAO) *</label><input id="from" required placeholder="UUEE"></div>
+<div class="field"><label for="to">Куда (ICAO) *</label><input id="to" required placeholder="ULLI"></div>
+<div class="field"><label for="date">Дата *</label><input id="date" type="date" required></div>
+<div class="field"><label for="time">Время вылета (UTC)</label><input id="time" type="time"></div>
+<div class="field full"><label for="crew">Экипаж</label><input id="crew" placeholder="Командир, второй пилот, остальные участники"></div>
+<div class="field"><label for="ofp">OFP (PDF и другие файлы)</label><input id="ofp" type="file" multiple></div>
+<div class="field"><label for="mel">MEL</label><input id="mel" type="file" multiple></div>
+<div class="field"><label for="aircraftDocs">Документы ВС</label><input id="aircraftDocs" type="file" multiple></div>
+<div class="field"><label for="otherDocs">Другие файлы</label><input id="otherDocs" type="file" multiple></div>
+<div class="field full"><label for="notes">Примечание / брифинг</label><textarea id="notes" placeholder="Дополнительная информация по рейсу"></textarea></div>
+<div class="field full"><span class="hint">Рейс и документы будут сохранены в общей базе. Добавлять и удалять рейсы сможет только учётная запись администратора.</span></div>
+</div><div class="actions"><button type="button" class="secondary" id="cancelBtn">Отмена</button><button type="submit">Сохранить рейс</button></div></form></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let supabaseClient=null, currentUser=null, flights=[];
+const isConfigured=()=>window.AEROFLOT_CONFIG && window.AEROFLOT_CONFIG.url && window.AEROFLOT_CONFIG.anonKey && !String(window.AEROFLOT_CONFIG.url).includes('YOUR_PROJECT');
+function showStatus(msg){let el=$('siteStatus');if(el)el.textContent=msg;}
+function setAdminUI(user){
+ currentUser=user;
+ $('addBtn').style.display=user?'inline-flex':'none';
+ $('loginBtn').style.display=user?'none':'inline-flex';
+ $('logoutBtn').style.display=user?'inline-flex':'none';
+}
+function openModal(){$('modal').classList.add('open')}function closeModal(){$('modal').classList.remove('open')}
+function openLogin(){$('loginModal').classList.add('open')}function closeLogin(){$('loginModal').classList.remove('open')}
+function render(){
+ const q=$('search').value.toLowerCase();
+ const list=flights.filter(f=>JSON.stringify(f).toLowerCase().includes(q));
+ $('count').textContent=`Рейсов: ${list.length}`;
+ $('empty').hidden=list.length>0;
+ const body=$('flights');
+ body.innerHTML=list.map(f=>`<tr><td><span class="flight">${escapeHtml(f.number)}</span><span class="small">${escapeHtml(f.date||'')}</span></td><td><span class="route">${escapeHtml(f.from)} → ${escapeHtml(f.to)}</span></td><td>${escapeHtml(f.time||'—')}<span class="small">UTC</span></td><td>${escapeHtml(f.aircraft)}</td><td>${escapeHtml(f.crew||'—')}</td><td><div class="docs">${(f.files||[]).map(d=>`<a class="doc" href="${escapeHtml(d.url)}" target="_blank" rel="noopener" download="${escapeHtml(d.name)}" title="${escapeHtml(d.name)}">↓ ${escapeHtml(d.kind)} (${escapeHtml(d.name)})</a>`).join('')||'<span class="small">Нет файлов</span>'}</div></td><td>${escapeHtml(f.notes||'—')}</td><td>${currentUser?`<button class="secondary" onclick="deleteFlight('${escapeHtml(f.id)}')">Удалить</button>`:'<span class="small">Просмотр</span>'}</td></tr>`).join('');
+}
+async function loadFlights(){
+ if(!supabaseClient){showStatus('Сначала настройте config.js и Supabase.');return;}
+ showStatus('Загружаю рейсы из общей базы…');
+ const {data,error}=await supabaseClient.from('flights').select('*').order('created_at',{ascending:false});
+ if(error){showStatus('Ошибка загрузки рейсов: '+error.message);flights=[];}
+ else {flights=(data||[]).map(f=>({...f,files:f.files||[]}));showStatus('Общая база подключена. Рейсы видны всем посетителям.');}
+ render();
+}
+async function uploadFiles(inputId,kind){
+ const selected=Array.from($(inputId).files||[]), result=[];
+ for(const file of selected){
+  const cleanName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+  const path=`${Date.now()}_${Math.random().toString(36).slice(2)}_${cleanName}`;
+  const {error}=await supabaseClient.storage.from('flight-docs').upload(path,file,{upsert:false});
+  if(error)throw new Error(`Не удалось загрузить ${file.name}: ${error.message}`);
+  const {data}=supabaseClient.storage.from('flight-docs').getPublicUrl(path);
+  result.push({name:file.name,kind,url:data.publicUrl,path});
+ }
+ return result;
+}
+$('addBtn').onclick=()=>{if(!currentUser){alert('Войдите как администратор.');return;}openModal()};
+$('closeBtn').onclick=closeModal;$('cancelBtn').onclick=closeModal;$('search').oninput=render;
+$('loginBtn').onclick=openLogin;$('loginClose').onclick=closeLogin;$('loginCancel').onclick=closeLogin;
+$('logoutBtn').onclick=async()=>{await supabaseClient.auth.signOut();setAdminUI(null);render();showStatus('Вы вышли. Режим просмотра.');};
+$('loginForm').addEventListener('submit',async e=>{
+ e.preventDefault();$('loginSubmit').disabled=true;$('loginMessage').textContent='Выполняется вход…';
+ try{
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email:$('adminEmail').value.trim(),password:$('adminPassword').value});
+  if(error)throw error;
+  setAdminUI(data.user);closeLogin();$('loginForm').reset();$('loginMessage').textContent='';render();showStatus('Вход выполнен. Доступно управление рейсами.');
+ }catch(err){$('loginMessage').textContent='Не удалось войти: '+err.message;}
+ finally{$('loginSubmit').disabled=false;}
+});
+window.deleteFlight=async id=>{
+ if(!currentUser){alert('Только администратор может удалять рейсы.');return;}
+ if(!confirm('Удалить рейс?'))return;
+ const f=flights.find(x=>x.id===id);
+ const {error}=await supabaseClient.from('flights').delete().eq('id',id);
+ if(error){alert('Не удалось удалить рейс: '+error.message);return;}
+ if(f&&Array.isArray(f.files))for(const d of f.files)if(d.path)await supabaseClient.storage.from('flight-docs').remove([d.path]);
+ await loadFlights();
+};
+$('flightForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ if(!currentUser){alert('Войдите как администратор.');return;}
+ const submit=e.submitter;submit.disabled=true;submit.textContent='Сохранение…';
+ try{
+  let files=[];
+  for(const [id,kind] of [['ofp','OFP'],['mel','MEL'],['aircraftDocs','ВС'],['otherDocs','Файл']])files=files.concat(await uploadFiles(id,kind));
+  const record={number:$('number').value.trim(),aircraft:$('aircraft').value.trim(),from:$('from').value.trim().toUpperCase(),to:$('to').value.trim().toUpperCase(),date:$('date').value,time:$('time').value,crew:$('crew').value.trim(),notes:$('notes').value.trim(),files};
+  const {error}=await supabaseClient.from('flights').insert(record);
+  if(error)throw error;
+  await loadFlights();$('flightForm').reset();closeModal();
+ }catch(err){alert('Не удалось сохранить рейс: '+err.message);}
+ finally{submit.disabled=false;submit.textContent='Сохранить рейс';}
+});
+(async function init(){
+ setAdminUI(null);
+ if(!isConfigured()){
+  showStatus('Нужно настроить config.js и создать таблицу Supabase — см. README_RU.md.');
+  $('empty').hidden=false;$('empty').textContent='Сайт пока не подключён к общей базе. Настройте Supabase по инструкции в README_RU.md.';
+  render();return;
+ }
+ supabaseClient=window.supabase.createClient(window.AEROFLOT_CONFIG.url,window.AEROFLOT_CONFIG.anonKey);
+ const {data:{session}}=await supabaseClient.auth.getSession();
+ setAdminUI(session?.user||null);
+ supabaseClient.auth.onAuthStateChange((_event,session)=>{setAdminUI(session?.user||null);render();});
+ await loadFlights();
+})();
+</script></body></html>
