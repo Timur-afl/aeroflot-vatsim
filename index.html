@@ -125,7 +125,7 @@ button:hover{background:#003b7a}button:disabled{opacity:.6;cursor:wait}
 <input type="file" multiple hidden><div class="filelist" aria-live="polite"></div></div></div>
 <div class="field full"><label for="repairs">Ремонты и технические замечания ВС</label><textarea id="repairs" placeholder="Неисправности, выполненные ремонты и технические замечания"></textarea></div>
 <div class="field full"><label for="notes">Примечание / брифинг</label><textarea id="notes" placeholder="Дополнительная информация по рейсу"></textarea></div>
-<div class="field full"><span class="hint">Нажимайте «Добавить файлы» повторно: выбранные файлы будут накапливаться. Перед сохранением проверьте список в каждой категории. Все файлы загрузятся в Supabase Storage.</span></div>
+
 </div><div class="actions"><button type="button" class="secondary" id="cancelBtn">Отмена</button><button type="submit" id="saveFlightBtn">Сохранить рейс</button></div></form></div></div>
 
 <div class="modal" id="flightDetailsModal"><div class="dialog"><div class="dialogtop"><div><h2 id="detailTitle">Информация о рейсе</h2><div class="sub" id="detailRoute"></div></div><button type="button" class="close" id="detailCloseBtn">✕</button></div><div id="flightDetailsContent"></div></div></div>
@@ -307,8 +307,7 @@ function plannedArrivalDate(f){
 function getFlightStatus(f,p){
  const key=flightKey(f),now=Date.now(),depTime=f.date&&f.time?new Date(`${f.date}T${f.time}:00Z`).getTime():null;
  if(!p){
-  if(arrivalMemory[key])return {label:arrivalMemory[key].late?'Прибыл с опозданием':'Прибыл по расписанию',cls:arrivalMemory[key].late?'status-late':'status-arrived',detail:'Прибытие было зафиксировано этим браузером ранее.'};
-  return {label:depTime&&now<depTime-30*60*1000?'Подготовка к вылету':'Нет данных VATSIM',cls:'status-prep',detail:'Пилот не найден в текущем списке VATSIM или позывной не совпал.'};
+  return {label:'Подготовка к вылету',cls:'status-prep',detail:'Пилот этого рейса сейчас не найден в сети VATSIM.'};
  }
  const phase=getPilotPhase(p),alt=Number(p.altitude||0),gs=Number(p.groundspeed||0),fp=p.flight_plan||{};
  const hasBeenAirborne=airborneMemory.has(key);
@@ -329,7 +328,7 @@ function updateDetailFlightStatus(f){
 }
 function refreshOpenFlightStatus(){const modal=$('flightDetailsModal');if(!modal||!modal.classList.contains('open'))return;const title=$('detailTitle').textContent;const f=flights.find(x=>String(x.number||'')===String(title));if(f)updateDetailFlightStatus(f);}
 async function loadVatsim(){
- try{const r=await fetch('https://data.vatsim.net/v3/vatsim-data.json',{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);const data=await r.json();latestVatsimPilots=Array.isArray(data.pilots)?data.pilots:[];flights.forEach(f=>{const p=getFlightPilot(f),st=statusForList(f);const el=document.querySelector(`[data-flight-status="${CSS.escape(String(f.id))}"]`);const hr=document.querySelector(`[data-flight-hours="${CSS.escape(String(f.id))}"]`);if(el)el.textContent=st.label;if(hr)hr.textContent=st.hours;});flights.forEach(f=>{const p=getFlightPilot(f);if(p&&Number(p.altitude||0)>500)airborneMemory.add(flightKey(f));});persistVatsimMemory();refreshOpenFlightStatus();}catch(e){document.querySelectorAll('.flight-live-status').forEach(el=>el.textContent='Статус: нет данных VATSIM');document.querySelectorAll('.flight-live-hours').forEach(el=>el.textContent='VATSIM: данные недоступны');}
+ try{const r=await fetch('https://data.vatsim.net/v3/vatsim-data.json',{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);const data=await r.json();latestVatsimPilots=Array.isArray(data.pilots)?data.pilots:[];flights.forEach(f=>{const p=getFlightPilot(f),st=statusForList(f);const el=document.querySelector(`[data-flight-status="${CSS.escape(String(f.id))}"]`);const hr=document.querySelector(`[data-flight-hours="${CSS.escape(String(f.id))}"]`);if(el)el.textContent=st.label;if(hr)hr.textContent=st.hours;});flights.forEach(f=>{const p=getFlightPilot(f);if(p&&Number(p.altitude||0)>500)airborneMemory.add(flightKey(f));});persistVatsimMemory();refreshOpenFlightStatus();}catch(e){document.querySelectorAll('.flight-live-status').forEach(el=>el.textContent='Статус: Подготовка к вылету');document.querySelectorAll('.flight-live-hours').forEach(el=>el.textContent='VATSIM: данные недоступны');}
 }
 setInterval(loadVatsim,60000);
 
