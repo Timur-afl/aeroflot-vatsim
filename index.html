@@ -46,14 +46,14 @@ button:hover{background:#003b7a}button:disabled{opacity:.6;cursor:wait}
 <body>
 <header><div class="hero"></div><div class="brand"><div class="brandbox">
 <img alt="Логотип Aeroflot" src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Aeroflot_Russian_Airlines_logo_%28ru%29.svg" onerror="this.style.display='none'">
-<h1>AEROFLOT</h1><p>VATSIM для экипажей</p>
+<h1>AEROFLOT</h1><p>Расписание лётных экипажей</p>
 </div></div></header>
 <main>
-<div class="topline"><div><h2>Рейсы экипажа</h2><div class="sub">Расписание и документы в одном месте</div></div><div id="adminControls" style="display:flex;gap:8px;flex-wrap:wrap"><button id="loginBtn" class="secondary">Вход администратора</button><button id="logoutBtn" class="secondary" style="display:none">Выйти</button><button id="addBtn" style="display:none">＋ Добавить новый рейс</button></div></div>
+<div class="topline"><div><h2>Рейсы экипажа</h2><div class="sub">Расписание, OFP и MEL</div></div><div id="adminControls" style="display:flex;gap:8px;flex-wrap:wrap"><button id="loginBtn" class="secondary">Вход администратора</button><button id="logoutBtn" class="secondary" style="display:none">Выйти</button><button id="addBtn" style="display:none">＋ Добавить новый рейс</button></div></div>
 <div class="topline"><input class="search" id="search" placeholder="Поиск по рейсу, маршруту, экипажу…"><div class="sub" id="count"></div></div>
 <div id="siteStatus" role="status" style="padding:11px 14px;margin-bottom:14px;border-radius:9px;background:#f2f7fc;color:#36506d;font-size:13px">Подготовка общей базы…</div>
-<section class="vatsim-panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><h2 style="font-size:20px">VATSIM — отслеживание экипажа</h2><div class="sub">Проверка CID 1903455 и 1990524 · данные сети обновляются примерно раз в минуту</div></div><button type="button" class="secondary" id="vatsimRefresh">Обновить VATSIM</button></div><div id="vatsimStatus" class="hint" style="margin-top:10px">Подключение к данным VATSIM…</div><div id="vatsimCards" class="vatsim-grid"></div><div class="hint" style="margin-top:10px">Фаза полёта рассчитывается приблизительно по высоте и скорости, когда данные доступны; это не официальный статус VATSIM.</div></section>
-<section class="panel"><div class="panelhead"><strong>Все рейсы</strong><span class="small" style="margin:0">OFP · MEL · ВС · Дополнительные файлы</span></div>
+
+<section class="panel"><div class="panelhead"><strong>Все рейсы</strong><span class="small" style="margin:0">OFP · MEL</span></div>
 <div class="tablewrap"><table><thead><tr><th>Рейс</th><th>Маршрут</th><th>Дата / UTC</th><th>ВС</th><th>Экипаж</th><th>OFP</th><th>Документы</th><th>Примечание</th><th>Действия</th></tr></thead><tbody id="flights"></tbody></table></div><div class="empty" id="empty" hidden>Пока рейсов нет. Нажмите «Добавить новый рейс», чтобы создать первый.</div></section>
 <div class="footer"><span>AEROFLOT · VATSIM CREW</span><span>Неофициальный проект виртуальной команды. Не связан с ПАО «Аэрофлот».</span></div>
 
@@ -115,14 +115,14 @@ button:hover{background:#003b7a}button:disabled{opacity:.6;cursor:wait}
 <div class="field"><label for="arrivalDate">Дата прибытия (UTC)</label><input id="arrivalDate" type="date"></div>
 <div class="field"><label for="arrivalTime">Плановое прибытие (UTC)</label><input id="arrivalTime" type="time"><span class="hint">Нужно для оценки прибытия по расписанию или с опозданием от 20 минут.</span></div>
 <div class="field full"><label for="vatsimCallsign">Позывной VATSIM (необязательно)</label><input id="vatsimCallsign" placeholder="Например, AFL123"><span class="hint">Укажи позывной из своего flight plan. Если оставить пустым, сайт будет искать по CID 1903455 или 1990524 и сверять маршрут.</span></div>
-<div class="field full"><label for="crew">Экипаж</label><input id="crew" placeholder="Командир, второй пилот, остальные участники"></div>
+<div class="field full"><label for="crew">Лётный экипаж</label><textarea id="crew" placeholder="Тимур Соколов — КВС, CID 1903455&#10;Кирилл Петрик — 2-й пилот, CID 1990524">Тимур Соколов — КВС, CID 1903455\nКирилл Петрик — 2-й пилот, CID 1990524</textarea><span class="hint">CID и статус в сети проверяются по публичным данным VATSIM.</span></div>
 <div class="field full"><label for="ofpUrl">Ссылка на OFP</label><input id="ofpUrl" type="url" placeholder="https://..."><span class="hint">Можно добавить ссылку на PDF или облачный файл. Доступ к ссылке должен быть открыт посетителям сайта.</span></div>
 <div class="field full"><label>Уже прикреплённые файлы</label><div id="existingFiles" class="filebox"><span class="hint">При редактировании здесь будут показаны сохранённые документы. Их можно оставить или удалить.</span></div></div>
 
 <div class="field full"><div class="filebox" data-filebox="ofp"><div class="fileboxhead"><label>OFP (PDF и другие файлы)</label><div class="file-actions"><button type="button" class="secondary add-files">＋ Добавить файлы</button><button type="button" class="secondary clear-files">Очистить</button></div></div><input type="file" multiple hidden><div class="filelist" aria-live="polite"></div></div></div>
 <div class="field full"><div class="filebox" data-filebox="mel"><div class="fileboxhead"><label>MEL</label><div class="file-actions"><button type="button" class="secondary add-files">＋ Добавить файлы</button><button type="button" class="secondary clear-files">Очистить</button></div></div><input type="file" multiple hidden><div class="filelist" aria-live="polite"></div></div></div>
-<div class="field full"><div class="filebox" data-filebox="aircraftDocs"><div class="fileboxhead"><label>Документы ВС</label><div class="file-actions"><button type="button" class="secondary add-files">＋ Добавить файлы</button><button type="button" class="secondary clear-files">Очистить</button></div></div><input type="file" multiple hidden><div class="filelist" aria-live="polite"></div></div></div>
-<div class="field full"><div class="filebox" data-filebox="otherDocs"><div class="fileboxhead"><label>Другие файлы</label><div class="file-actions"><button type="button" class="secondary add-files">＋ Добавить файлы</button><button type="button" class="secondary clear-files">Очистить</button></div></div><input type="file" multiple hidden><div class="filelist" aria-live="polite"></div></div></div>
+<input type="file" multiple hidden><div class="filelist" aria-live="polite"></div></div></div>
+<input type="file" multiple hidden><div class="filelist" aria-live="polite"></div></div></div>
 <div class="field full"><label for="repairs">Ремонты и технические замечания ВС</label><textarea id="repairs" placeholder="Неисправности, выполненные ремонты и технические замечания"></textarea></div>
 <div class="field full"><label for="notes">Примечание / брифинг</label><textarea id="notes" placeholder="Дополнительная информация по рейсу"></textarea></div>
 <div class="field full"><span class="hint">Нажимайте «Добавить файлы» повторно: выбранные файлы будут накапливаться. Перед сохранением проверьте список в каждой категории. Все файлы загрузятся в Supabase Storage.</span></div>
@@ -142,8 +142,8 @@ function openModal(){$('modal').classList.add('open')}function closeModal(){$('m
 function openLogin(){$('loginModal').classList.add('open')}function closeLogin(){$('loginModal').classList.remove('open')}
 
 /* Keep selected files in memory so selecting files in several rounds doesn't replace earlier selections. */
-const fileSelections={ofp:[],mel:[],aircraftDocs:[],otherDocs:[]};
-const fileLabels={ofp:'OFP',mel:'MEL',aircraftDocs:'ВС',otherDocs:'Файл'};
+const fileSelections={ofp:[],mel:[]};
+const fileLabels={ofp:'OFP',mel:'MEL'};
 function renderSelectedFiles(key){
  const box=document.querySelector(`[data-filebox="${key}"]`),list=box.querySelector('.filelist'),files=fileSelections[key];
  if(!files.length){list.textContent='Файлы не выбраны';return;}
@@ -166,6 +166,7 @@ document.querySelectorAll('[data-filebox]').forEach(box=>{
 });
 function clearSelectedFiles(){Object.keys(fileSelections).forEach(k=>{fileSelections[k]=[];const input=document.querySelector(`[data-filebox="${k}"] input`);if(input)input.value='';renderSelectedFiles(k);});}
 function flightHasOFP(f){return !!(String(f.ofp_url||f.ofpUrl||'').trim()||(f.files||[]).some(d=>String(d.kind||'').toUpperCase()==='OFP'&&d.url));}
+function statusForList(f){const p=getFlightPilot(f);if(!p)return {label:'Статус: ожидание VATSIM',hours:'VATSIM: не в сети'};const st=getFlightStatus(f,p);const started=Date.parse(p.logon_time||'');const hours=Number.isFinite(started)?Math.max(0,(Date.now()-started)/3600000):null;return {label:'Статус: '+st.label,hours:hours===null?'VATSIM: в сети':('В сети: '+Math.floor(hours)+' ч '+Math.floor((hours%1)*60)+' мин')};}
 function render(){
  const q=$('search').value.toLowerCase();
  const list=flights.filter(f=>JSON.stringify(f).toLowerCase().includes(q));
@@ -173,7 +174,7 @@ function render(){
  $('flights').innerHTML=list.map(f=>{
   const ofp=flightHasOFP(f)?'<span class="ofp-ready">🟢 OFP готов</span>':'<span class="ofp-missing">OFP не загружен</span>';
   const docs=(f.files||[]).map(d=>{const cls=String(d.kind||'').toUpperCase()==='MEL'?'doc doc-mel':'doc';return `<a class="${cls}" href="${escapeHtml(d.url||'')}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(d.name||'Документ')}">↗ ${escapeHtml(d.kind||'Файл')} (${escapeHtml(d.name||'Документ')})</a>`}).join('');
-  return `<tr><td><span class="flight">${escapeHtml(f.number||'')}</span><span class="small">${escapeHtml(f.date||'')}</span></td><td><span class="route">${escapeHtml(f.from||'—')} → ${escapeHtml(f.to||'—')}</span></td><td>${escapeHtml(f.time||'—')}<span class="small">UTC</span></td><td>${escapeHtml(f.aircraft||'—')}</td><td>${escapeHtml(f.crew||'—')}</td><td>${ofp}</td><td><div class="docs">${docs||'<span class="small">Нет файлов</span>'}</div></td><td>${escapeHtml(f.notes||'—')}${f.repairs?`<span class="small">Есть тех. замечания</span>`:''}</td><td><button class="details-btn" type="button" data-details-id="${escapeHtml(f.id)}">Подробнее</button>${currentUser?`<button class="details-btn" type="button" data-edit-id="${escapeHtml(f.id)}">Редактировать</button><button class="secondary" type="button" data-delete-id="${escapeHtml(f.id)}">Удалить</button>`:''}</td></tr>`;
+  return `<tr><td><span class="flight">${escapeHtml(f.number||'')}</span><span class="small">${escapeHtml(f.date||'')}</span><span class="small flight-live-status" data-flight-status="${escapeHtml(f.id)}">${escapeHtml(statusForList(f).label)}</span><span class="small flight-live-hours" data-flight-hours="${escapeHtml(f.id)}">${escapeHtml(statusForList(f).hours)}</span></td><td><span class="route">${escapeHtml(f.from||'—')} → ${escapeHtml(f.to||'—')}</span></td><td>${escapeHtml(f.time||'—')}<span class="small">UTC</span></td><td>${escapeHtml(f.aircraft||'—')}</td><td>${escapeHtml(f.crew||'—')}</td><td>${ofp}</td><td><div class="docs">${docs||'<span class="small">Нет файлов</span>'}</div></td><td>${escapeHtml(f.notes||'—')}${f.repairs?`<span class="small">Есть тех. замечания</span>`:''}</td><td><button class="details-btn" type="button" data-details-id="${escapeHtml(f.id)}">Подробнее</button>${currentUser?`<button class="details-btn" type="button" data-edit-id="${escapeHtml(f.id)}">Редактировать</button><button class="secondary" type="button" data-delete-id="${escapeHtml(f.id)}">Удалить</button>`:''}</td></tr>`;
  }).join('');
 }
 $('flights').addEventListener('click',e=>{
@@ -188,7 +189,7 @@ function showFlightDetails(id){
  const files=Array.isArray(f.files)?f.files:[],ofp=safeExternalUrl(f.ofp_url||f.ofpUrl||'');
  const links=(kind)=>{const found=files.filter(d=>String(d.kind||'').toUpperCase()===kind.toUpperCase()&&safeExternalUrl(d.url));return found.length?found.map(d=>`<a class="detail-link ${kind.toUpperCase()==='MEL'?'detail-link-mel':''}" href="${escapeHtml(safeExternalUrl(d.url))}" target="_blank" rel="noopener noreferrer">↗ ${escapeHtml(d.name||kind)}</a>`).join(''):'<span class="small">Документы не добавлены</span>';};
  $('detailTitle').textContent=f.number||'Рейс';$('detailRoute').textContent=`${f.from||'—'} → ${f.to||'—'}`;
- $('flightDetailsContent').innerHTML=`<div class="detail-section"><h3>Основная информация</h3><p><b>Рейс:</b> ${escapeHtml(f.number||'—')}</p><p><b>Маршрут:</b> ${escapeHtml(f.from||'—')} → ${escapeHtml(f.to||'—')}</p><p><b>Дата:</b> ${escapeHtml(f.date||'—')}</p><p><b>Вылет (UTC):</b> ${escapeHtml(f.time||'—')}</p><p><b>Плановое прибытие (UTC):</b> ${escapeHtml([f.arrival_date||f.date,f.arrival_time].filter(Boolean).join(' ')||'не указано')}</p><p><b>Позывной VATSIM:</b> ${escapeHtml(f.vatsim_callsign||'по CID / плану VATSIM')}</p><p><b>ВС:</b> ${escapeHtml(f.aircraft||'—')}</p><p><b>Экипаж:</b> ${escapeHtml(f.crew||'—')}</p></div><div class="detail-section"><h3>OFP — план полёта ${flightHasOFP(f)?'🟢':''}</h3>${ofp?`<a class="detail-link" href="${escapeHtml(ofp)}" target="_blank" rel="noopener noreferrer">↗ Открыть OFP по ссылке</a>`:'<p class="small">Внешняя ссылка на OFP не добавлена.</p>'}<div style="margin-top:8px">${links('OFP')}</div></div><div class="detail-section" style="border-color:#f2b8b5;background:#fffdfd"><h3 style="color:#b42318">🔴 MEL — перечень неисправностей</h3>${links('MEL')}</div><div class="detail-section"><h3>Документы воздушного судна</h3>${links('ВС')}</div><div class="detail-section"><h3>Ремонты и технические замечания ВС</h3><p class="detail-notes">${escapeHtml(f.repairs||'Информация о ремонтах не добавлена.')}</p></div><div class="detail-section"><h3>Другие документы</h3>${links('Файл')}</div><div class="detail-section"><h3>Примечание / брифинг</h3><p class="detail-notes">${escapeHtml(f.notes||'Нет примечаний.')}</p></div><div class="flight-status" id="detailLiveStatus"><strong>Статус рейса</strong><span class="status-pill">Проверка VATSIM…</span></div>`;
+ $('flightDetailsContent').innerHTML=`<div class="detail-section"><h3>Основная информация</h3><p><b>Рейс:</b> ${escapeHtml(f.number||'—')}</p><p><b>Маршрут:</b> ${escapeHtml(f.from||'—')} → ${escapeHtml(f.to||'—')}</p><p><b>Дата:</b> ${escapeHtml(f.date||'—')}</p><p><b>Вылет (UTC):</b> ${escapeHtml(f.time||'—')}</p><p><b>Плановое прибытие (UTC):</b> ${escapeHtml([f.arrival_date||f.date,f.arrival_time].filter(Boolean).join(' ')||'не указано')}</p><p><b>Позывной VATSIM:</b> ${escapeHtml(f.vatsim_callsign||'по CID / плану VATSIM')}</p><p><b>ВС:</b> ${escapeHtml(f.aircraft||'—')}</p><p><b>Экипаж:</b> ${escapeHtml(f.crew||'—')}</p></div><div class="detail-section"><h3>OFP — план полёта ${flightHasOFP(f)?'🟢':''}</h3>${ofp?`<a class="detail-link" href="${escapeHtml(ofp)}" target="_blank" rel="noopener noreferrer">↗ Открыть OFP по ссылке</a>`:'<p class="small">Внешняя ссылка на OFP не добавлена.</p>'}<div style="margin-top:8px">${links('OFP')}</div></div><div class="detail-section" style="border-color:#f2b8b5;background:#fffdfd"><h3 style="color:#b42318">🔴 MEL — перечень неисправностей</h3>${links('MEL')}</div><div class="detail-section"><h3>Ремонты и технические замечания ВС</h3><p class="detail-notes">${escapeHtml(f.repairs||'Информация о ремонтах не добавлена.')}</p></div><div class="detail-section"><h3>Примечание / брифинг</h3><p class="detail-notes">${escapeHtml(f.notes||'Нет примечаний.')}</p></div><div class="flight-status" id="detailLiveStatus"><strong>Статус рейса</strong><span class="status-pill">Проверка VATSIM…</span></div>`;
  updateDetailFlightStatus(f);
  $('flightDetailsModal').classList.add('open');
 }
@@ -245,7 +246,7 @@ window.deleteFlight=async id=>{
  const f=flights.find(x=>String(x.id)===String(id)),{error}=await supabaseClient.from('flights').delete().eq('id',id);
  if(error){alert('Не удалось удалить рейс: '+error.message);return;}
  if(f&&Array.isArray(f.files)){for(const d of f.files)if(d.path)await supabaseClient.storage.from('flight-docs').remove([d.path]);}
- await loadFlights();
+ await loadFlights();loadVatsim();
 };
 $('flightForm').addEventListener('submit',async e=>{
  e.preventDefault();if(!currentUser){alert('Войдите как администратор.');return;}if(!supabaseClient){alert('Supabase не настроен.');return;}
@@ -259,7 +260,7 @@ $('flightForm').addEventListener('submit',async e=>{
   if(editingFlightId)result=await supabaseClient.from('flights').update(record).eq('id',editingFlightId);
   else result=await supabaseClient.from('flights').insert(record);
   if(result.error)throw result.error;
-  await loadFlights();closeModal();resetFlightEditor();
+  await loadFlights();loadVatsim();closeModal();resetFlightEditor();
  }catch(err){alert('Не удалось сохранить рейс: '+err.message);}
  finally{submit.disabled=false;submit.textContent=original;}
 });
@@ -328,23 +329,10 @@ function updateDetailFlightStatus(f){
 }
 function refreshOpenFlightStatus(){const modal=$('flightDetailsModal');if(!modal||!modal.classList.contains('open'))return;const title=$('detailTitle').textContent;const f=flights.find(x=>String(x.number||'')===String(title));if(f)updateDetailFlightStatus(f);}
 async function loadVatsim(){
- const status=$('vatsimStatus'),cards=$('vatsimCards');status.textContent='Запрашиваю текущий список VATSIM…';
- try{
-  const r=await fetch('https://data.vatsim.net/v3/vatsim-data.json',{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);
-  const data=await r.json();latestVatsimPilots=Array.isArray(data.pilots)?data.pilots:[];
-  cards.innerHTML=TRACKED_CIDS.map(cid=>{
-   const p=latestVatsimPilots.find(x=>String(x.cid)===cid);
-   if(!p)return `<div class="vatsim-card"><div style="font-weight:800">CID ${cid}</div><div class="vatsim-offline" style="margin-top:8px">● Не в сети</div><div class="hint" style="margin-top:6px">В текущем списке пилотов VATSIM не найден.</div></div>`;
-   const fp=p.flight_plan||{},route=[fp.departure,fp.arrival].filter(Boolean).join(' → ')||'Маршрут не указан';
-   const alt=Number.isFinite(Number(p.altitude))?Math.round(Number(p.altitude)).toLocaleString('ru-RU')+' ft':'—';
-   const speed=Number.isFinite(Number(p.groundspeed))?Math.round(Number(p.groundspeed))+' kt':'—';
-   return `<div class="vatsim-card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><b>CID ${cid}</b><span class="vatsim-online">● В сети</span></div><div style="font-size:18px;font-weight:800;color:#0754a5;margin-top:8px">${escapeHtml(p.callsign||'Позывной не указан')}</div><div style="margin-top:6px">${escapeHtml(route)}</div><div class="hint" style="margin-top:8px">Самолёт: ${escapeHtml(fp.aircraft_short||fp.aircraft||'не указан')}</div><div class="hint">Высота: ${escapeHtml(alt)} · Скорость: ${escapeHtml(speed)}</div><div style="margin-top:8px;font-weight:700">Фаза: ${escapeHtml(getPilotPhase(p))}</div></div>`;
-  }).join('');
-  flights.forEach(f=>{const p=getFlightPilot(f);if(p){const phase=getPilotPhase(p);if(phase!=='На земле / стоянка'&&Number(p.altitude||0)>500)airborneMemory.add(flightKey(f));}});persistVatsimMemory();refreshOpenFlightStatus();
-  status.textContent='Данные VATSIM обновлены: '+new Date().toLocaleTimeString('ru-RU')+'. Автообновление каждые 60 секунд.';
- }catch(e){status.textContent='Не удалось загрузить VATSIM. Сервис может быть временно недоступен или запрос заблокирован браузером.';cards.innerHTML=TRACKED_CIDS.map(cid=>`<div class="vatsim-card"><b>CID ${cid}</b><div class="hint" style="margin-top:8px">Нет данных. Попробуйте обновить позже.</div></div>`).join('');}
+ try{const r=await fetch('https://data.vatsim.net/v3/vatsim-data.json',{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);const data=await r.json();latestVatsimPilots=Array.isArray(data.pilots)?data.pilots:[];flights.forEach(f=>{const p=getFlightPilot(f),st=statusForList(f);const el=document.querySelector(`[data-flight-status="${CSS.escape(String(f.id))}"]`);const hr=document.querySelector(`[data-flight-hours="${CSS.escape(String(f.id))}"]`);if(el)el.textContent=st.label;if(hr)hr.textContent=st.hours;});flights.forEach(f=>{const p=getFlightPilot(f);if(p&&Number(p.altitude||0)>500)airborneMemory.add(flightKey(f));});persistVatsimMemory();refreshOpenFlightStatus();}catch(e){document.querySelectorAll('.flight-live-status').forEach(el=>el.textContent='Статус: нет данных VATSIM');document.querySelectorAll('.flight-live-hours').forEach(el=>el.textContent='VATSIM: данные недоступны');}
 }
-$('vatsimRefresh').addEventListener('click',loadVatsim);loadVatsim();setInterval(loadVatsim,60000);
+setInterval(loadVatsim,60000);
+
 
 (async function init(){
  setAdminUI(null);
@@ -353,7 +341,7 @@ $('vatsimRefresh').addEventListener('click',loadVatsim);loadVatsim();setInterval
   supabaseClient=window.supabase.createClient(window.AEROFLOT_CONFIG.url,window.AEROFLOT_CONFIG.anonKey);
   const {data:{session}}=await supabaseClient.auth.getSession();setAdminUI(session?.user||null);
   supabaseClient.auth.onAuthStateChange((_event,session)=>{setAdminUI(session?.user||null);render();});
-  await loadFlights();
+  await loadFlights();loadVatsim();
  }catch(err){showStatus('Ошибка инициализации Supabase: '+err.message);}
 })();
 </script>
