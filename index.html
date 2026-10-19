@@ -34,7 +34,11 @@ button:hover{background:#003b7a}button:disabled{opacity:.6;cursor:wait}
 .field label{font-size:13px;color:#4e6279;font-weight:700}.field input,.field textarea,.field select{width:100%;border:1px solid #d7e1ec;border-radius:8px;padding:11px;font:inherit;background:#fff}.field textarea{min-height:78px;resize:vertical}
 .hint{font-size:12px;color:var(--muted)}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
 .footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#8592a3;font-size:12px;margin-top:22px}
-.filebox{border:1px solid #dce6f1;border-radius:10px;padding:12px;background:#f9fbfe}.fileboxhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.fileboxhead label{margin:0}.filelist{font-size:12px;color:#536981;margin-top:8px;overflow-wrap:anywhere}.filelist:empty{display:none}.filelist ul{margin:6px 0 0;padding-left:18px}.file-actions{display:flex;gap:8px;flex-wrap:wrap}.file-actions button{padding:7px 10px;font-size:12px}
+.filebox{border:1px solid #dce6f1;border-radius:10px;padding:12px;background:#f9fbfe}.fileboxhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.fileboxhead label{margin:0}
+/* MEL — красная надпись */
+.filebox[data-filebox="mel"] .fileboxhead > label{color:#dc2626!important;font-weight:800}
+/* Кнопка создания рейса */
+#createFlightBtn{display:inline-flex;align-items:center;gap:6px}.filelist{font-size:12px;color:#536981;margin-top:8px;overflow-wrap:anywhere}.filelist:empty{display:none}.filelist ul{margin:6px 0 0;padding-left:18px}.file-actions{display:flex;gap:8px;flex-wrap:wrap}.file-actions button{padding:7px 10px;font-size:12px}
 @media(max-width:680px){.brand{justify-content:center}.hero:after{background:rgba(255,255,255,.76)}.brandbox{background:#ffffffd9;padding:20px;border-radius:14px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}main{padding-top:22px}}
 #meteoMap.leaflet-container{height:600px!important;min-height:600px!important;width:100%!important;background:#13283f!important;z-index:1}
 #meteoMap .leaflet-pane,#meteoMap .leaflet-tile-pane,#meteoMap .leaflet-overlay-pane,#meteoMap .leaflet-marker-pane,#meteoMap .leaflet-popup-pane{position:absolute}
@@ -48,7 +52,7 @@ button:hover{background:#003b7a}button:disabled{opacity:.6;cursor:wait}
 <h1>AEROFLOT</h1><p>VATSIM для экипажей</p>
 </div></div></header>
 <main>
-<div class="topline"><div><h2>Рейсы экипажа</h2><div class="sub">Расписание и документы в одном месте</div></div><div id="adminControls" style="display:flex;gap:8px;flex-wrap:wrap"><button id="loginBtn" class="secondary">Вход администратора</button><button id="logoutBtn" class="secondary" style="display:none">Выйти</button><button id="addBtn" style="display:none">＋ Добавить новый рейс</button></div></div>
+<div class="topline"><div><h2>Рейсы экипажа</h2><div class="sub">Расписание и документы в одном месте</div></div><div id="adminControls" style="display:flex;gap:8px;flex-wrap:wrap"><button id="createFlightBtn" type="button">＋ Создать рейс</button><button id="loginBtn" class="secondary">Вход администратора</button><button id="logoutBtn" class="secondary" style="display:none">Выйти</button><button id="addBtn" style="display:none">＋ Добавить новый рейс</button></div></div>
 <div class="topline"><input class="search" id="search" placeholder="Поиск по рейсу, маршруту, экипажу…"><div class="sub" id="count"></div></div>
 <div id="siteStatus" role="status" style="padding:11px 14px;margin-bottom:14px;border-radius:9px;background:#f2f7fc;color:#36506d;font-size:13px">Подготовка общей базы…</div>
 <section class="panel"><div class="panelhead"><strong>Все рейсы</strong><span class="small" style="margin:0">OFP · MEL · ВС · Дополнительные файлы</span></div>
@@ -72,7 +76,7 @@ button:hover{background:#003b7a}button:disabled{opacity:.6;cursor:wait}
 <script>
 (function(){
  const select=document.getElementById('metarAirport'),status=document.getElementById('metarStatus'),raw=document.getElementById('metarRaw'),cards=document.getElementById('metarCards');
- const card=(label,value,detail='')=><div style="border:1px solid #e3eaf2;border-radius:12px;padding:16px;background:#fff"><div style="font-size:12px;color:#68788c">${label}</div><div style="font-size:23px;font-weight:700;color:#073d78;margin-top:7px">${value}</div><div style="font-size:12px;color:#68788c;margin-top:5px">${detail}</div></div>;
+ const card=(label,value,detail='')=>`<div style="border:1px solid #e3eaf2;border-radius:12px;padding:16px;background:#fff"><div style="font-size:12px;color:#68788c">${label}</div><div style="font-size:23px;font-weight:700;color:#073d78;margin-top:7px">${value}</div><div style="font-size:12px;color:#68788c;margin-top:5px">${detail}</div></div>`;
  const safe=v=>v===undefined||v===null||v===''?'—':String(v);
  async function loadMetar(){
   const icao=select.value;status.textContent='Запрашиваю последний METAR для '+icao+'…';raw.textContent='Загрузка…';cards.innerHTML='';
@@ -136,12 +140,12 @@ function openLogin(){$('loginModal').classList.add('open')}function closeLogin()
 const fileSelections={ofp:[],mel:[],aircraftDocs:[],otherDocs:[]};
 const fileLabels={ofp:'OFP',mel:'MEL',aircraftDocs:'ВС',otherDocs:'Файл'};
 function renderSelectedFiles(key){
- const box=document.querySelector([data-filebox="${key}"]),list=box.querySelector('.filelist'),files=fileSelections[key];
+ const box=document.querySelector(`[data-filebox="${key}"]`),list=box.querySelector('.filelist'),files=fileSelections[key];
  if(!files.length){list.textContent='Файлы не выбраны';return;}
  const ul=document.createElement('ul');
- files.forEach((file,index)=>{const li=document.createElement('li');li.textContent=${file.name} (${formatBytes(file.size)}) ;
+ files.forEach((file,index)=>{const li=document.createElement('li');li.textContent=`${file.name} (${formatBytes(file.size)}) `;
   const remove=document.createElement('button');remove.type='button';remove.className='secondary';remove.style.cssText='padding:2px 7px;margin:2px';remove.textContent='Удалить';remove.addEventListener('click',()=>{fileSelections[key].splice(index,1);renderSelectedFiles(key)});li.appendChild(remove);ul.appendChild(li);});
- list.replaceChildren();const count=document.createElement('div');count.textContent=Выбрано файлов: ${files.length};list.appendChild(count);list.appendChild(ul);
+ list.replaceChildren();const count=document.createElement('div');count.textContent=`Выбрано файлов: ${files.length}`;list.appendChild(count);list.appendChild(ul);
 }
 function formatBytes(n){if(!Number.isFinite(n))return '';if(n<1024)return n+' Б';if(n<1024*1024)return (n/1024).toFixed(1)+' КБ';return (n/1024/1024).toFixed(1)+' МБ';}
 document.querySelectorAll('[data-filebox]').forEach(box=>{
@@ -155,12 +159,12 @@ document.querySelectorAll('[data-filebox]').forEach(box=>{
  box.querySelector('.clear-files').addEventListener('click',()=>{fileSelections[key]=[];input.value='';renderSelectedFiles(key);});
  renderSelectedFiles(key);
 });
-function clearSelectedFiles(){Object.keys(fileSelections).forEach(k=>{fileSelections[k]=[];const input=document.querySelector([data-filebox="${k}"] input);if(input)input.value='';renderSelectedFiles(k);});}
+function clearSelectedFiles(){Object.keys(fileSelections).forEach(k=>{fileSelections[k]=[];const input=document.querySelector(`[data-filebox="${k}"] input`);if(input)input.value='';renderSelectedFiles(k);});}
 function render(){
  const q=$('search').value.toLowerCase();
  const list=flights.filter(f=>JSON.stringify(f).toLowerCase().includes(q));
- $('count').textContent=Рейсов: ${list.length};$('empty').hidden=list.length>0;
- $('flights').innerHTML=list.map(f=><tr><td><span class="flight">${escapeHtml(f.number)}</span><span class="small">${escapeHtml(f.date||'')}</span></td><td><span class="route">${escapeHtml(f.from)} → ${escapeHtml(f.to)}</span></td><td>${escapeHtml(f.time||'—')}<span class="small">UTC</span></td><td>${escapeHtml(f.aircraft)}</td><td>${escapeHtml(f.crew||'—')}</td><td><div class="docs">${(f.files||[]).map(d=><a class="doc" href="${escapeHtml(d.url)}" target="_blank" rel="noopener" download="${escapeHtml(d.name)}" title="${escapeHtml(d.name)}">↓ ${escapeHtml(d.kind)} (${escapeHtml(d.name)})</a>).join('')||'<span class="small">Нет файлов</span>'}</div></td><td>${escapeHtml(f.notes||'—')}</td><td>${currentUser?<button class="secondary" onclick="deleteFlight('${escapeHtml(f.id)}')">Удалить</button>:'<span class="small">Просмотр</span>'}</td></tr>).join('');
+ $('count').textContent=`Рейсов: ${list.length}`;$('empty').hidden=list.length>0;
+ $('flights').innerHTML=list.map(f=>`<tr><td><span class="flight">${escapeHtml(f.number)}</span><span class="small">${escapeHtml(f.date||'')}</span></td><td><span class="route">${escapeHtml(f.from)} → ${escapeHtml(f.to)}</span></td><td>${escapeHtml(f.time||'—')}<span class="small">UTC</span></td><td>${escapeHtml(f.aircraft)}</td><td>${escapeHtml(f.crew||'—')}</td><td><div class="docs">${(f.files||[]).map(d=>`<a class="doc" href="${escapeHtml(d.url)}" target="_blank" rel="noopener" download="${escapeHtml(d.name)}" title="${escapeHtml(d.name)}">↓ ${escapeHtml(d.kind)} (${escapeHtml(d.name)})</a>`).join('')||'<span class="small">Нет файлов</span>'}</div></td><td>${escapeHtml(f.notes||'—')}</td><td>${currentUser?`<button class="secondary" onclick="deleteFlight('${escapeHtml(f.id)}')">Удалить</button>`:'<span class="small">Просмотр</span>'}</td></tr>`).join('');
 }
 async function loadFlights(){
  if(!supabaseClient){showStatus('Сначала настройте config.js и Supabase.');return;}
@@ -174,15 +178,23 @@ async function uploadFiles(key,kind){
  const selected=fileSelections[key],result=[];
  for(const file of selected){
   const cleanName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-  const path=${Date.now()}_${Math.random().toString(36).slice(2)}_${cleanName};
+  const path=`${Date.now()}_${Math.random().toString(36).slice(2)}_${cleanName}`;
   const {error}=await supabaseClient.storage.from('flight-docs').upload(path,file,{upsert:false});
-  if(error)throw new Error(Не удалось загрузить ${file.name}: ${error.message});
+  if(error)throw new Error(`Не удалось загрузить ${file.name}: ${error.message}`);
   const {data}=supabaseClient.storage.from('flight-docs').getPublicUrl(path);
   result.push({name:file.name,kind,url:data.publicUrl,path});
  }
  return result;
 }
-$('addBtn').onclick=()=>{if(!currentUser){alert('Войдите как администратор.');return;}openModal()};
+$('createFlightBtn').onclick=()=>{
+ if(!currentUser){
+  openLogin();
+  $('loginMessage').textContent='Войдите в аккаунт администратора, чтобы создать рейс.';
+  return;
+ }
+ openModal();
+};
+$('addBtn').onclick=()=>{if(!currentUser){openLogin();return;}openModal()};
 $('closeBtn').onclick=closeModal;$('cancelBtn').onclick=closeModal;$('search').oninput=render;
 $('loginBtn').onclick=openLogin;$('loginClose').onclick=closeLogin;$('loginCancel').onclick=closeLogin;
 $('logoutBtn').onclick=async()=>{if(supabaseClient)await supabaseClient.auth.signOut();setAdminUI(null);render();showStatus('Вы вышли. Режим просмотра.');};
