@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -6,125 +7,263 @@
 <title>AEROFLOT — VATSIM Crew</title>
 <style>
 :root{--blue:#003b7a;--blue2:#0754a5;--ink:#14243a;--muted:#68788e;--line:#e5ebf2;--bg:#fff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,Arial,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,Arial,sans-serif}
 header{position:relative;min-height:260px;background:#eaf1f8;overflow:hidden}
 .hero{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,25,58,.08),rgba(0,25,58,.03)),url('assets/aeroflot-aircraft.png') center 54%/cover}
 .hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.03),rgba(255,255,255,.88) 68%,#fff)}
 .brand{position:relative;z-index:1;display:flex;justify-content:flex-end;align-items:center;min-height:260px;padding:32px clamp(22px,6vw,90px)}
-.brandbox{text-align:center;max-width:480px}.brandbox img{width:min(310px,70vw);height:auto;display:block;margin:0 auto 14px}
+.brandbox{text-align:center;max-width:480px}
+.brandbox img{width:min(310px,70vw);height:auto;display:block;margin:0 auto 14px}
 .brandbox h1{font-size:clamp(34px,5vw,56px);letter-spacing:4px;color:#003b7a;margin:0;font-weight:800}
 .brandbox p{margin:7px 0 0;color:#38536f;font-size:16px;letter-spacing:.5px}
 main{max-width:1240px;margin:0 auto;padding:30px clamp(16px,4vw,48px) 60px}
 .topline{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:22px}
-h2{font-size:25px;margin:0;color:#123a67}.sub{color:var(--muted);margin-top:4px}
+h2{font-size:25px;margin:0;color:#123a67}
+.sub{color:var(--muted);margin-top:4px}
 button{border:0;border-radius:9px;background:var(--blue2);color:white;padding:12px 17px;font-weight:700;font-size:14px;cursor:pointer}
-button:hover{background:#003b7a}button:disabled{opacity:.6;cursor:wait}
+button:hover{background:#003b7a}
+button:disabled{opacity:.6;cursor:wait}
 .secondary{background:#eef4fb;color:#124477;border:1px solid #d9e5f2}
 .search{border:1px solid #d8e1eb;border-radius:9px;padding:12px 14px;min-width:min(320px,100%);font:inherit}
 .panel{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:white}
 .panelhead{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}
-.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:850px}th{background:#f3f6fa;color:#36506d;font-size:12px;text-transform:uppercase;letter-spacing:.5px;text-align:left;padding:14px 16px}td{padding:16px;border-top:1px solid var(--line);vertical-align:top}tbody tr:hover{background:#fbfdff}
-.flight{font-weight:800;color:#0754a5}.route{font-weight:700}.small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
-.docs{display:flex;flex-wrap:wrap;gap:6px}.doc{display:inline-flex;align-items:center;gap:5px;border:1px solid #dce6f1;background:#f8fbff;border-radius:7px;padding:6px 8px;color:#174d87;font-size:12px;text-decoration:none;cursor:pointer}.doc:hover{background:#eaf3ff}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th{background:#f3f6fa;color:#36506d;font-size:12px;text-transform:uppercase;letter-spacing:.5px;text-align:left;padding:14px 16px}
+td{padding:16px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:hover{background:#fbfdff}
+.flight{font-weight:800;color:#0754a5}
+.route{font-weight:700}
+.small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.docs{display:flex;flex-wrap:wrap;gap:6px}
+.doc{display:inline-flex;align-items:center;gap:5px;border:1px solid #dce6f1;background:#f8fbff;border-radius:7px;padding:6px 8px;color:#174d87;font-size:12px;text-decoration:none;cursor:pointer}
+.doc:hover{background:#eaf3ff}
 .empty{padding:35px;text-align:center;color:var(--muted)}
-.doc-mel{color:#b42318!important;background:#fff0ef!important;border-color:#f2b8b5!important;font-weight:800}.ofp-ready{display:inline-flex;align-items:center;gap:5px;background:#e5f7ed;color:#187346;border:1px solid #b8e6ca;border-radius:7px;padding:6px 8px;font-size:12px;font-weight:800}.ofp-missing{display:inline-flex;background:#f2f4f7;color:#68788e;border:1px solid #e0e5eb;border-radius:7px;padding:6px 8px;font-size:12px}.vatsim-panel{border:1px solid #dce7f2;border-radius:14px;background:#f7faff;padding:18px;margin:0 0 18px}.vatsim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:12px}.vatsim-card{border:1px solid #dce6f1;border-radius:10px;background:#fff;padding:13px}.vatsim-online{color:#187346;font-weight:800}.vatsim-offline{color:#68788e;font-weight:800}.existing-file{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0;padding:7px 9px;background:#fff;border:1px solid #e1e8f0;border-radius:7px}.existing-file a{overflow-wrap:anywhere}.danger-small{background:#fff0ef!important;color:#b42318!important;border:1px solid #f2b8b5!important;padding:5px 8px!important;font-size:12px!important}.detail-section{border:1px solid #e1e8f0;border-radius:11px;padding:15px;margin-top:12px;overflow-wrap:anywhere}.detail-section h3{margin:0 0 10px;color:#123a67;font-size:16px}.detail-section p{margin:7px 0}.detail-link{display:inline-block;margin:4px 6px 4px 0;padding:8px 11px;border-radius:7px;background:#edf4fc;color:#0754a5;text-decoration:none;overflow-wrap:anywhere}.detail-link-mel{background:#fff0ef;color:#b42318;border:1px solid #f2b8b5;font-weight:800}.detail-notes{white-space:pre-wrap;overflow-wrap:anywhere}.flight-status{padding:13px 15px;border-radius:10px;background:#f2f7fc;border:1px solid #dce7f2;margin-top:12px}.flight-status strong{display:block;color:#123a67;margin-bottom:4px}.status-pill{display:inline-flex;border-radius:7px;padding:6px 9px;font-weight:800;font-size:13px;background:#eef2f6;color:#425466}.status-prep{background:#fff7e6;color:#925f00}.status-air{background:#e8f2ff;color:#0754a5}.status-arrived{background:#e5f7ed;color:#187346}.status-late{background:#fff0ef;color:#b42318}
-.modal{display:none;position:fixed;inset:0;background:#071b33a8;z-index:10;padding:20px;overflow:auto}.modal.open{display:flex;align-items:flex-start;justify-content:center}
+.doc-mel{color:#b42318!important;background:#fff0ef!important;border-color:#f2b8b5!important;font-weight:800}
+.ofp-ready{display:inline-flex;align-items:center;gap:5px;background:#e5f7ed;color:#187346;border:1px solid #b8e6ca;border-radius:7px;padding:6px 8px;font-size:12px;font-weight:800}
+.ofp-missing{display:inline-flex;background:#f2f4f7;color:#68788e;border:1px solid #e0e5eb;border-radius:7px;padding:6px 8px;font-size:12px}
+.vatsim-panel{border:1px solid #dce7f2;border-radius:14px;background:#f7faff;padding:18px;margin:0 0 18px}
+.vatsim-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:12px}
+.vatsim-card{border:1px solid #dce6f1;border-radius:10px;background:#fff;padding:13px}
+.vatsim-online{color:#187346;font-weight:800}
+.vatsim-offline{color:#68788e;font-weight:800}
+.existing-file{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0;padding:7px 9px;background:#fff;border:1px solid #e1e8f0;border-radius:7px}
+.existing-file a{overflow-wrap:anywhere}
+.danger-small{background:#fff0ef!important;color:#b42318!important;border:1px solid #f2b8b5!important;padding:5px 8px!important;font-size:12px!important}
+.detail-section{border:1px solid #e1e8f0;border-radius:11px;padding:15px;margin-top:12px;overflow-wrap:anywhere}
+.detail-section h3{margin:0 0 10px;color:#123a67;font-size:16px}
+.detail-section p{margin:7px 0}
+.detail-link{display:inline-block;margin:4px 6px 4px 0;padding:8px 11px;border-radius:7px;background:#edf4fc;color:#0754a5;text-decoration:none;overflow-wrap:anywhere}
+.detail-link-mel{background:#fff0ef;color:#b42318;border:1px solid #f2b8b5;font-weight:800}
+.flight-status{padding:13px 15px;border-radius:10px;background:#f2f7fc;border:1px solid #dce7f2;margin-top:12px}
+.flight-status strong{display:block;color:#123a67;margin-bottom:4px}
+.status-pill{display:inline-flex;border-radius:7px;padding:6px 9px;font-weight:800;font-size:13px;background:#eef2f6;color:#425466}
+.status-prep{background:#fff7e6;color:#925f00}
+.status-air{background:#e8f2ff;color:#0754a5}
+.status-arrived{background:#e5f7ed;color:#187346}
+.status-late{background:#fff0ef;color:#b42318}
+.modal{display:none;position:fixed;inset:0;background:#071b33a8;z-index:10;padding:20px;overflow:auto}
+.modal.open{display:flex;align-items:flex-start;justify-content:center}
 .dialog{width:min(760px,100%);background:white;border-radius:16px;padding:24px;margin:auto;box-shadow:0 20px 60px #00152e40}
-.dialogtop{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}.dialog h2{font-size:22px}.close{background:#edf2f7;color:#29415d;padding:7px 11px}
-.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}
-.field label{font-size:13px;color:#4e6279;font-weight:700}.field input,.field textarea,.field select{width:100%;border:1px solid #d7e1ec;border-radius:8px;padding:11px;font:inherit;background:#fff}.field textarea{min-height:78px;resize:vertical}
-.hint{font-size:12px;color:var(--muted)}.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
+.dialogtop{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}
+.dialog h2{font-size:22px}
+.close{background:#edf2f7;color:#29415d;padding:7px 11px}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:13px;color:#4e6279;font-weight:700}
+.field input,.field textarea,.field select{width:100%;border:1px solid #d7e1ec;border-radius:8px;padding:11px;font:inherit;background:#fff}
+.field textarea{min-height:78px;resize:vertical}
+.hint{font-size:12px;color:var(--muted)}
+.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}
 .footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#8592a3;font-size:12px;margin-top:22px}
-.filebox{border:1px solid #dce6f1;border-radius:10px;padding:12px;background:#f9fbfe}.fileboxhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.fileboxhead label{margin:0}.filelist{font-size:12px;color:#536981;margin-top:8px;overflow-wrap:anywhere}.filelist:empty{display:none}.filelist ul{margin:6px 0 0;padding-left:18px}.file-actions{display:flex;gap:8px;flex-wrap:wrap}.file-actions button{padding:7px 10px;font-size:12px}
-@media(max-width:680px){.brand{justify-content:center}.hero:after{background:rgba(255,255,255,.76)}.brandbox{background:#ffffffd9;padding:20px;border-radius:14px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}main{padding-top:22px}}
+.filebox{border:1px solid #dce6f1;border-radius:10px;padding:12px;background:#f9fbfe}
+.fileboxhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.fileboxhead label{margin:0}
+.filelist{font-size:12px;color:#536981;margin-top:8px;overflow-wrap:anywhere}
+.filelist:empty{display:none}
+.filelist ul{margin:6px 0 0;padding-left:18px}
+.file-actions{display:flex;gap:8px;flex-wrap:wrap}
+.file-actions button{padding:7px 10px;font-size:12px}
+@media(max-width:680px){
+ .brand{justify-content:center}
+ .hero:after{background:rgba(255,255,255,.76)}
+ .brandbox{background:#ffffffd9;padding:20px;border-radius:14px}
+ .formgrid{grid-template-columns:1fr}
+ .field.full{grid-column:auto}
+ main{padding-top:22px}
+}
 #meteoMap.leaflet-container{height:600px!important;min-height:600px!important;width:100%!important;background:#13283f!important;z-index:1}
 #meteoMap .leaflet-pane,#meteoMap .leaflet-tile-pane,#meteoMap .leaflet-overlay-pane,#meteoMap .leaflet-marker-pane,#meteoMap .leaflet-popup-pane{position:absolute}
-#meteoMap .leaflet-tile{max-width:none!important;max-height:none!important}#meteoMap .leaflet-control-attribution{font-size:10px}
+#meteoMap .leaflet-tile{max-width:none!important;max-height:none!important}
+#meteoMap .leaflet-control-attribution{font-size:10px}
 @media(max-width:700px){#meteoMap.leaflet-container{height:470px!important;min-height:470px!important}}
 </style>
 </head>
 <body>
-<header><div class="hero"></div><div class="brand"><div class="brandbox">
-<img alt="Логотип Aeroflot" src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Aeroflot_Russian_Airlines_logo_%28ru%29.svg" onerror="this.style.display='none'">
-<h1>AEROFLOT</h1><p>Расписание лётных экипажей</p>
-</div></div></header>
+<header>
+ <div class="hero"></div>
+ <div class="brand"><div class="brandbox">
+  <img alt="Логотип Aeroflot" src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Aeroflot_Russian_Airlines_logo_%28ru%29.svg" onerror="this.style.display='none'">
+  <h1>AEROFLOT</h1><p>Расписание лётных экипажей</p>
+ </div></div>
+</header>
 <main>
-<div class="topline"><div><h2>Рейсы экипажа</h2><div class="sub">Расписание, OFP и MEL</div></div><div id="adminControls" style="display:flex;gap:8px;flex-wrap:wrap"><button id="loginBtn" class="secondary">Вход администратора</button><button id="logoutBtn" class="secondary" style="display:none">Выйти</button><button id="addBtn" style="display:none">＋ Добавить новый рейс</button></div></div>
-<div class="topline"><input class="search" id="search" placeholder="Поиск по рейсу, маршруту, экипажу…"><div class="sub" id="count"></div></div>
-<div id="siteStatus" role="status" style="padding:11px 14px;margin-bottom:14px;border-radius:9px;background:#f2f7fc;color:#36506d;font-size:13px">Подготовка общей базы…</div>
-
-<section class="panel"><div class="panelhead"><strong>Все рейсы</strong><span class="small" style="margin:0">OFP · MEL</span></div>
-<div class="tablewrap"><table><thead><tr><th>Рейс</th><th>Маршрут</th><th>Дата / UTC</th><th>ВС</th><th>Экипаж</th><th>OFP</th><th>Документы</th><th>Примечание</th><th>Действия</th></tr></thead><tbody id="flights"></tbody></table></div><div class="empty" id="empty" hidden>Пока рейсов нет. Нажмите «Добавить новый рейс», чтобы создать первый.</div></section>
-<div class="footer"><span>AEROFLOT · VATSIM CREW</span><span>Неофициальный проект виртуальной команды. Не связан с ПАО «Аэрофлот».</span></div>
-
-<section id="weatherSection" style="margin-top:34px">
-  <div style="display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px">
-    <div><h2 style="margin:0;color:#073d78">METAR — фактическая погода</h2><div style="font-size:13px;color:#68788c;margin-top:4px">Официальный авиационный метеокод наблюдения по выбранному аэродрому</div></div>
-    <button id="metarRefresh" type="button">Обновить METAR</button>
+ <div class="topline">
+  <div><h2>Рейсы экипажа</h2><div class="sub">Расписание, OFP и MEL</div></div>
+  <div id="adminControls" style="display:flex;gap:8px;flex-wrap:wrap">
+   <button id="loginBtn" class="secondary">Вход администратора</button>
+   <button id="logoutBtn" class="secondary" style="display:none">Выйти</button>
+   <button id="addBtn" style="display:none">＋ Добавить новый рейс</button>
   </div>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px"><label style="flex:1;min-width:220px;font-size:13px;color:#50647a">Аэродром (ICAO)
+ </div>
+ <div class="topline">
+  <input class="search" id="search" placeholder="Поиск по рейсу, маршруту, экипажу…">
+  <div class="sub" id="count"></div>
+ </div>
+ <div id="siteStatus" role="status" style="padding:11px 14px;margin-bottom:14px;border-radius:9px;background:#f2f7fc;color:#36506d;font-size:13px">Подготовка общей базы…</div>
+ <section class="panel">
+  <div class="panelhead"><strong>Все рейсы</strong><span class="small" style="margin:0">OFP · MEL</span></div>
+  <div class="tablewrap">
+   <table>
+    <thead><tr><th>Рейс</th><th>Маршрут</th><th>Дата / UTC</th><th>ВС</th><th>Экипаж</th><th>OFP</th><th>Документы</th><th>Примечание</th><th>Действия</th></tr></thead>
+    <tbody id="flights"></tbody>
+   </table>
+  </div>
+  <div class="empty" id="empty" hidden>Пока рейсов нет. Нажмите «Добавить новый рейс», чтобы создать первый.</div>
+ </section>
+ <div class="footer"><span>AEROFLOT · VATSIM CREW</span><span>Неофициальный проект виртуальной команды. Не связан с ПАО «Аэрофлот».</span></div>
+
+ <section id="weatherSection" style="margin-top:34px">
+  <div style="display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+   <div><h2 style="margin:0;color:#073d78">METAR — фактическая погода</h2><div style="font-size:13px;color:#68788c;margin-top:4px">Официальный авиационный метеокод наблюдения по выбранному аэродрому</div></div>
+   <button id="metarRefresh" type="button">Обновить METAR</button>
+  </div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+   <label style="flex:1;min-width:220px;font-size:13px;color:#50647a">Аэродром (ICAO)
     <select id="metarAirport" style="display:block;width:100%;margin-top:5px;border:1px solid #d5dfeb;border-radius:8px;padding:11px;background:white;font:inherit">
-      <option value="UUEE">UUEE — Москва Шереметьево</option><option value="ULLI">ULLI — Санкт-Петербург Пулково</option><option value="UUWW">UUWW — Москва Внуково</option><option value="USSS">USSS — Екатеринбург Кольцово</option><option value="UUDD">UUDD — Москва Домодедово</option><option value="UNNT">UNNT — Новосибирск Толмачёво</option><option value="URSS">URSS — Сочи</option><option value="ZBAA">ZBAA — Пекин</option><option value="EGLL">EGLL — Лондон Хитроу</option><option value="EHAM">EHAM — Амстердам Схипхол</option>
-    </select></label></div>
+     <option value="UUEE">UUEE — Москва Шереметьево</option>
+     <option value="ULLI">ULLI — Санкт-Петербург Пулково</option>
+     <option value="UUWW">UUWW — Москва Внуково</option>
+     <option value="USSS">USSS — Екатеринбург Кольцово</option>
+     <option value="UUDD">UUDD — Москва Домодедово</option>
+     <option value="UNNT">UNNT — Новосибирск Толмачёво</option>
+     <option value="URSS">URSS — Сочи</option>
+     <option value="ZBAA">ZBAA — Пекин</option>
+     <option value="EGLL">EGLL — Лондон Хитроу</option>
+     <option value="EHAM">EHAM — Амстердам Схипхол</option>
+    </select>
+   </label>
+  </div>
   <div id="metarStatus" style="color:#68788c;font-size:13px;margin-bottom:12px">Загрузка METAR…</div>
   <div id="metarRaw" style="padding:16px;border-radius:12px;background:#f3f7fb;border:1px solid #dce6f1;color:#073d78;font:600 15px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;min-height:56px">Ожидание данных…</div>
   <div id="metarCards" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px"></div>
   <div style="font-size:12px;color:#8592a3;margin-top:12px">Источник: <a href="https://aviationweather.gov/data/api/" target="_blank" rel="noopener" style="color:#0756a4">AviationWeather.gov Data API</a>. METAR — наблюдение, а не прогноз; для реальных полётов сверяйтесь с официальными источниками.</div>
-</section>
-<script>
-(function(){
- const select=document.getElementById('metarAirport'),status=document.getElementById('metarStatus'),raw=document.getElementById('metarRaw'),cards=document.getElementById('metarCards');
- const card=(label,value,detail='')=>`<div style="border:1px solid #e3eaf2;border-radius:12px;padding:16px;background:#fff"><div style="font-size:12px;color:#68788c">${label}</div><div style="font-size:23px;font-weight:700;color:#073d78;margin-top:7px">${value}</div><div style="font-size:12px;color:#68788c;margin-top:5px">${detail}</div></div>`;
- const safe=v=>v===undefined||v===null||v===''?'—':String(v);
- async function loadMetar(){
-  const icao=select.value;status.textContent='Запрашиваю последний METAR для '+icao+'…';raw.textContent='Загрузка…';cards.innerHTML='';
-  try{
-   const target='https://aviationweather.gov/api/data/metar?ids='+encodeURIComponent(icao)+'&format=json';
-   const response=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(target),{cache:'no-store'});
-   if(!response.ok)throw new Error('HTTP '+response.status);
-   const payload=await response.json(),d=Array.isArray(payload)?payload[0]:payload;
-   if(!d||!d.rawOb)throw new Error('METAR не найден');
-   raw.textContent=d.rawOb;
-   const wind=d.wdir==='VRB'||d.wdir===-1?'Переменный':(d.wdir===undefined?'—':Math.round(Number(d.wdir))+'°');
-   const speed=d.wspd===undefined?'—':Math.round(Number(d.wspd))+' kt';
-   const gust=d.wgst===undefined||d.wgst===null?'':' · порывы '+Math.round(Number(d.wgst))+' kt';
-   const cloudList=Array.isArray(d.clouds)&&d.clouds.length?d.clouds.map(x=>x.cover+(x.base!==undefined?' '+Math.round(Number(x.base)/100)+'00 ft':'')).join(', '):'—';
-   cards.innerHTML=card('Аэродром',safe(d.icaoId),safe(d.name))+card('Ветер',wind,speed+gust)+card('Видимость',safe(d.visib),'значение в формате источника')+card('Погода',safe(d.wxString))+card('Облачность',cloudList)+card('Температура / точка росы',safe(d.temp)+'°C / '+safe(d.dewp)+'°C')+card('Давление',safe(d.altim),'hPa, если указано источником')+card('Категория полёта',safe(d.fltCat));
-   status.textContent='Последний доступный отчёт · '+icao+' · '+(d.reportTime||d.receiptTime||'время не указано')+'. Источник может обновляться с задержкой.';
-  }catch(e){raw.textContent='Не удалось получить METAR автоматически. Попробуйте обновить позже или откройте источник напрямую.';cards.innerHTML='';status.textContent='Ошибка загрузки METAR. Возможны временная недоступность API или CORS-прокси.';}
- }
- document.getElementById('metarRefresh').addEventListener('click',loadMetar);select.addEventListener('change',loadMetar);loadMetar();
-})();
-</script>
-
+ </section>
+ <script>
+ (function(){
+  const select=document.getElementById('metarAirport'),status=document.getElementById('metarStatus'),raw=document.getElementById('metarRaw'),cards=document.getElementById('metarCards');
+  const card=(label,value,detail='')=>`<div style="border:1px solid #e3eaf2;border-radius:12px;padding:16px;background:#fff"><div style="font-size:12px;color:#68788c">${label}</div><div style="font-size:23px;font-weight:700;color:#073d78;margin-top:7px">${value}</div><div style="font-size:12px;color:#68788c;margin-top:5px">${detail}</div></div>`;
+  const safe=v=>v===undefined||v===null||v===''?'—':String(v);
+  async function loadMetar(){
+   const icao=select.value;
+   status.textContent='Запрашиваю последний METAR для '+icao+'…';
+   raw.textContent='Загрузка…';cards.innerHTML='';
+   try{
+    const target='https://aviationweather.gov/api/data/metar?ids='+encodeURIComponent(icao)+'&format=json';
+    const response=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(target),{cache:'no-store'});
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const payload=await response.json(),d=Array.isArray(payload)?payload[0]:payload;
+    if(!d||!d.rawOb)throw new Error('METAR не найден');
+    raw.textContent=d.rawOb;
+    const wind=d.wdir==='VRB'||d.wdir===-1?'Переменный':(d.wdir===undefined?'—':Math.round(Number(d.wdir))+'°');
+    const speed=d.wspd===undefined?'—':Math.round(Number(d.wspd))+' kt';
+    const gust=d.wgst===undefined||d.wgst===null?'':' · порывы '+Math.round(Number(d.wgst))+' kt';
+    const cloudList=Array.isArray(d.clouds)&&d.clouds.length?d.clouds.map(x=>x.cover+(x.base!==undefined?' '+Math.round(Number(x.base)/100)+'00 ft':'')).join(', '):'—';
+    cards.innerHTML=card('Аэродром',safe(d.icaoId),safe(d.name))+card('Ветер',wind,speed+gust)+card('Видимость',safe(d.visib),'значение в формате источника')+card('Погода',safe(d.wxString))+card('Облачность',cloudList)+card('Температура / точка росы',safe(d.temp)+'°C / '+safe(d.dewp)+'°C')+card('Давление',safe(d.altim),'hPa, если указано источником')+card('Категория полёта',safe(d.fltCat));
+    status.textContent='Последний доступный отчёт · '+icao+' · '+(d.reportTime||d.receiptTime||'время не указано')+'. Источник может обновляться с задержкой.';
+   }catch(e){
+    raw.textContent='Не удалось получить METAR автоматически. Попробуйте обновить позже или откройте источник напрямую.';
+    cards.innerHTML='';
+    status.textContent='Ошибка загрузки METAR. Возможны временная недоступность API или CORS-прокси.';
+   }
+  }
+  document.getElementById('metarRefresh').addEventListener('click',loadMetar);
+  select.addEventListener('change',loadMetar);
+  loadMetar();
+ })();
+ </script>
 </main>
 
-<div class="modal" id="loginModal"><div class="dialog" style="max-width:460px">
-<div class="dialogtop"><div><h2>Вход администратора</h2><div class="sub">Только владелец сайта может управлять рейсами</div></div><button type="button" class="close" id="loginClose">✕</button></div>
-<form id="loginForm"><div class="formgrid" style="grid-template-columns:1fr"><div class="field"><label for="adminEmail">Email администратора</label><input id="adminEmail" type="email" required autocomplete="username"></div><div class="field"><label for="adminPassword">Пароль</label><input id="adminPassword" type="password" required autocomplete="current-password"></div></div><div class="actions"><button type="button" class="secondary" id="loginCancel">Отмена</button><button type="submit" id="loginSubmit">Войти</button></div><p id="loginMessage" class="hint"></p></form>
-</div></div>
+<div class="modal" id="loginModal">
+ <div class="dialog" style="max-width:460px">
+  <div class="dialogtop">
+   <div><h2>Вход администратора</h2><div class="sub">Только владелец сайта может управлять рейсами</div></div>
+   <button type="button" class="close" id="loginClose">✕</button>
+  </div>
+  <form id="loginForm">
+   <div class="formgrid" style="grid-template-columns:1fr">
+    <div class="field"><label for="adminEmail">Email администратора</label><input id="adminEmail" type="email" required autocomplete="username"></div>
+    <div class="field"><label for="adminPassword">Пароль</label><input id="adminPassword" type="password" required autocomplete="current-password"></div>
+   </div>
+   <div class="actions"><button type="button" class="secondary" id="loginCancel">Отмена</button><button type="submit" id="loginSubmit">Войти</button></div>
+   <p id="loginMessage" class="hint"></p>
+  </form>
+ </div>
+</div>
 
-<div class="modal" id="modal"><div class="dialog"><div class="dialogtop"><div><h2 id="flightFormTitle">Добавить рейс</h2><div class="sub">Данные рейса, OFP, MEL и техническая информация</div></div><button type="button" class="close" id="closeBtn">✕</button></div>
-<form id="flightForm"><div class="formgrid">
-<div class="field"><label for="number">Номер рейса *</label><input id="number" required placeholder="SU1234"></div>
-<div class="field"><label for="aircraft">Тип ВС *</label><input id="aircraft" required placeholder="A320 / A321 / B738"></div>
-<div class="field"><label for="from">Откуда (ICAO) *</label><input id="from" required placeholder="UUEE"></div>
-<div class="field"><label for="to">Куда (ICAO) *</label><input id="to" required placeholder="ULLI"></div>
-<div class="field"><label for="date">Дата *</label><input id="date" type="date" required></div>
-<div class="field"><label for="time">Время вылета (UTC)</label><input id="time" type="time"></div>
-<div class="field"><label for="arrivalDate">Дата прибытия (UTC)</label><input id="arrivalDate" type="date"></div>
-<div class="field"><label for="arrivalTime">Плановое прибытие (UTC)</label><input id="arrivalTime" type="time"><span class="hint">Нужно для оценки прибытия по расписанию или с опозданием от 20 минут.</span></div>
-<div class="field full"><label for="vatsimCallsign">Позывной VATSIM (необязательно)</label><input id="vatsimCallsign" placeholder="Например, AFL123"><span class="hint">Укажи позывной из своего flight plan. Если оставить пустым, сайт будет искать по CID 1903455 или 1990524 и сверять маршрут.</span></div>
-<div class="field full"><label for="crew">Лётный экипаж</label><textarea id="crew" placeholder="Тимур Соколов — КВС, CID 1903455&#10;Кирилл Петрик — 2-й пилот, CID 1990524">Тимур Соколов — КВС, CID 1903455\nКирилл Петрик — 2-й пилот, CID 1990524</textarea><span class="hint">CID и статус в сети проверяются по публичным данным VATSIM.</span></div>
-<div class="field full"><label for="ofpUrl">Ссылка на OFP</label><input id="ofpUrl" type="url" placeholder="https://..."><span class="hint">Можно добавить ссылку на PDF или облачный файл. Доступ к ссылке должен быть открыт посетителям сайта.</span></div>
-<div class="field full"><label>Уже прикреплённые файлы</label><div id="existingFiles" class="filebox"><span class="hint">При редактировании здесь будут показаны сохранённые документы. Их можно оставить или удалить.</span></div></div>
+<div class="modal" id="modal">
+ <div class="dialog">
+  <div class="dialogtop">
+   <div><h2 id="flightFormTitle">Добавить рейс</h2><div class="sub">Данные рейса, OFP, MEL и техническая информация</div></div>
+   <button type="button" class="close" id="closeBtn">✕</button>
+  </div>
+  <form id="flightForm">
+   <div class="formgrid">
+    <div class="field"><label for="number">Номер рейса *</label><input id="number" required placeholder="SU1234"></div>
+    <div class="field"><label for="aircraft">Тип ВС *</label><input id="aircraft" required placeholder="A320 / A321 / B738"></div>
+    <div class="field"><label for="from">Откуда (ICAO) *</label><input id="from" required placeholder="UUEE"></div>
+    <div class="field"><label for="to">Куда (ICAO) *</label><input id="to" required placeholder="ULLI"></div>
+    <div class="field"><label for="date">Дата *</label><input id="date" type="date" required></div>
+    <div class="field"><label for="time">Время вылета (UTC)</label><input id="time" type="time"></div>
+    <div class="field"><label for="arrivalDate">Дата прибытия (UTC)</label><input id="arrivalDate" type="date"></div>
+    <div class="field"><label for="arrivalTime">Плановое прибытие (UTC)</label><input id="arrivalTime" type="time"><span class="hint">Нужно для оценки прибытия по расписанию или с опозданием от 20 минут.</span></div>
+    <div class="field full"><label for="vatsimCallsign">Позывной VATSIM (необязательно)</label><input id="vatsimCallsign" placeholder="Например, AFL123"><span class="hint">Укажи позывной из своего flight plan. Если оставить пустым, сайт будет искать по CID 1903455 или 1990524 и сверять маршрут.</span></div>
+    <div class="field full"><label for="crew">Лётный экипаж</label><textarea id="crew" placeholder="Тимур Соколов — КВС, CID 1903455&#10;Кирилл Петрик — 2-й пилот, CID 1990524">Тимур Соколов — КВС, CID 1903455
+Кирилл Петрик — 2-й пилот, CID 1990524</textarea><span class="hint">CID и статус в сети проверяются по публичным данным VATSIM.</span></div>
+    <div class="field full"><label for="ofpUrl">Ссылка на OFP</label><input id="ofpUrl" type="url" placeholder="https://..."><span class="hint">Можно добавить ссылку на PDF или облачный файл. Доступ к ссылке должен быть открыт посетителям сайта.</span></div>
+    <div class="field full"><label>Уже прикреплённые файлы</label><div id="existingFiles" class="filebox"><span class="hint">При редактировании здесь будут показаны сохранённые документы. Их можно оставить или удалить.</span></div></div>
+    <div class="field full">
+     <div class="filebox" data-filebox="ofp">
+      <div class="fileboxhead"><label>OFP (PDF и другие файлы)</label><div class="file-actions"><button type="button" class="secondary add-files">＋ Добавить файлы</button><button type="button" class="secondary clear-files">Очистить</button></div></div>
+      <input type="file" multiple hidden><div class="filelist" aria-live="polite"></div>
+     </div>
+    </div>
+    <div class="field full">
+     <div class="filebox" data-filebox="mel">
+      <div class="fileboxhead"><label>MEL</label><div class="file-actions"><button type="button" class="secondary add-files">＋ Добавить файлы</button><button type="button" class="secondary clear-files">Очистить</button></div></div>
+      <input type="file" multiple hidden><div class="filelist" aria-live="polite"></div>
+     </div>
+    </div>
+    <div class="field full"><label for="repairs">Ремонты и технические замечания ВС</label><textarea id="repairs" placeholder="Неисправности, выполненные ремонты и технические замечания"></textarea></div>
+    <div class="field full"><label for="notes">Примечание / брифинг</label><textarea id="notes" placeholder="Дополнительная информация по рейсу"></textarea></div>
+   </div>
+   <div class="actions"><button type="button" class="secondary" id="cancelBtn">Отмена</button><button type="submit" id="saveFlightBtn">Сохранить рейс</button></div>
+  </form>
+ </div>
+</div>
 
-<div class="field full"><div class="filebox" data-filebox="ofp"><div class="fileboxhead"><label>OFP (PDF и другие файлы)</label><div class="file-actions"><button type="button" class="secondary add-files">＋ Добавить файлы</button><button type="button" class="secondary clear-files">Очистить</button></div></div><input type="file" multiple hidden><div class="filelist" aria-live="polite"></div></div></div>
-<div class="field full"><div class="filebox" data-filebox="mel"><div class="fileboxhead"><label>MEL</label><div class="file-actions"><button type="button" class="secondary add-files">＋ Добавить файлы</button><button type="button" class="secondary clear-files">Очистить</button></div></div><input type="file" multiple hidden><div class="filelist" aria-live="polite"></div></div></div>
-<input type="file" multiple hidden><div class="filelist" aria-live="polite"></div></div></div>
-<input type="file" multiple hidden><div class="filelist" aria-live="polite"></div></div></div>
+<div class="modal" id="flightDetailsModal">
+ <div class="dialog">
+  <div class="dialogtop">
+   <div><h2 id="detailTitle">Информация о рейсе</h2><div class="sub" id="detailRoute"></div></div>
+   <button type="button" class="close" id="detailCloseBtn">✕</button>
+  </div>
+  <div id="flightDetailsContent"></div>
+ </div>
+</div>
 
-<div class="modal" id="flightDetailsModal"><div class="dialog"><div class="dialogtop"><div><h2 id="detailTitle">Информация о рейсе</h2><div class="sub" id="detailRoute"></div></div><button type="button" class="close" id="detailCloseBtn">✕</button></div><div id="flightDetailsContent"></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script>
@@ -134,43 +273,87 @@ let supabaseClient=null,currentUser=null,flights=[],editingFlightId=null,editing
 const isConfigured=()=>window.AEROFLOT_CONFIG&&window.AEROFLOT_CONFIG.url&&window.AEROFLOT_CONFIG.anonKey&&!String(window.AEROFLOT_CONFIG.url).includes('YOUR_PROJECT');
 function showStatus(msg){const el=$('siteStatus');if(el)el.textContent=msg;}
 function setAdminUI(user){currentUser=user;$('addBtn').style.display=user?'inline-flex':'none';$('loginBtn').style.display=user?'none':'inline-flex';$('logoutBtn').style.display=user?'inline-flex':'none';}
-function openModal(){$('modal').classList.add('open')}function closeModal(){$('modal').classList.remove('open')}
-function openLogin(){$('loginModal').classList.add('open')}function closeLogin(){$('loginModal').classList.remove('open')}
+function openModal(){$('modal').classList.add('open')}
+function closeModal(){$('modal').classList.remove('open')}
+function openLogin(){$('loginModal').classList.add('open')}
+function closeLogin(){$('loginModal').classList.remove('open')}
 
-/* Keep selected files in memory so selecting files in several rounds doesn't replace earlier selections. */
+/* Selected files remain in memory while selecting several batches. */
 const fileSelections={ofp:[],mel:[]};
 const fileLabels={ofp:'OFP',mel:'MEL'};
 function renderSelectedFiles(key){
  const box=document.querySelector(`[data-filebox="${key}"]`),list=box.querySelector('.filelist'),files=fileSelections[key];
  if(!files.length){list.textContent='Файлы не выбраны';return;}
  const ul=document.createElement('ul');
- files.forEach((file,index)=>{const li=document.createElement('li');li.textContent=`${file.name} (${formatBytes(file.size)}) `;
-  const remove=document.createElement('button');remove.type='button';remove.className='secondary';remove.style.cssText='padding:2px 7px;margin:2px';remove.textContent='Удалить';remove.addEventListener('click',()=>{fileSelections[key].splice(index,1);renderSelectedFiles(key)});li.appendChild(remove);ul.appendChild(li);});
- list.replaceChildren();const count=document.createElement('div');count.textContent=`Выбрано файлов: ${files.length}`;list.appendChild(count);list.appendChild(ul);
+ files.forEach((file,index)=>{
+  const li=document.createElement('li');
+  li.textContent=`${file.name} (${formatBytes(file.size)}) `;
+  const remove=document.createElement('button');
+  remove.type='button';remove.className='secondary';remove.style.cssText='padding:2px 7px;margin:2px';remove.textContent='Удалить';
+  remove.addEventListener('click',()=>{fileSelections[key].splice(index,1);renderSelectedFiles(key)});
+  li.appendChild(remove);ul.appendChild(li);
+ });
+ list.replaceChildren();
+ const count=document.createElement('div');count.textContent=`Выбрано файлов: ${files.length}`;
+ list.appendChild(count);list.appendChild(ul);
 }
-function formatBytes(n){if(!Number.isFinite(n))return '';if(n<1024)return n+' Б';if(n<1024*1024)return (n/1024).toFixed(1)+' КБ';return (n/1024/1024).toFixed(1)+' МБ';}
+function formatBytes(n){
+ if(!Number.isFinite(n))return '';
+ if(n<1024)return n+' Б';
+ if(n<1024*1024)return (n/1024).toFixed(1)+' КБ';
+ return (n/1024/1024).toFixed(1)+' МБ';
+}
 document.querySelectorAll('[data-filebox]').forEach(box=>{
  const key=box.dataset.filebox,input=box.querySelector('input[type=file]');
  box.querySelector('.add-files').addEventListener('click',()=>input.click());
  input.addEventListener('change',()=>{
   const current=fileSelections[key],newFiles=Array.from(input.files||[]);
-  newFiles.forEach(file=>{if(!current.some(existing=>existing.name===file.name&&existing.size===file.size&&existing.lastModified===file.lastModified))current.push(file);});
+  newFiles.forEach(file=>{
+   if(!current.some(existing=>existing.name===file.name&&existing.size===file.size&&existing.lastModified===file.lastModified))current.push(file);
+  });
   input.value='';renderSelectedFiles(key);
  });
  box.querySelector('.clear-files').addEventListener('click',()=>{fileSelections[key]=[];input.value='';renderSelectedFiles(key);});
  renderSelectedFiles(key);
 });
-function clearSelectedFiles(){Object.keys(fileSelections).forEach(k=>{fileSelections[k]=[];const input=document.querySelector(`[data-filebox="${k}"] input`);if(input)input.value='';renderSelectedFiles(k);});}
+function clearSelectedFiles(){
+ Object.keys(fileSelections).forEach(k=>{
+  fileSelections[k]=[];
+  const input=document.querySelector(`[data-filebox="${k}"] input`);
+  if(input)input.value='';
+  renderSelectedFiles(k);
+ });
+}
 function flightHasOFP(f){return !!(String(f.ofp_url||f.ofpUrl||'').trim()||(f.files||[]).some(d=>String(d.kind||'').toUpperCase()==='OFP'&&d.url));}
-function statusForList(f){const p=getFlightPilot(f);if(!p)return {label:'Статус: ожидание VATSIM',hours:'VATSIM: не в сети'};const st=getFlightStatus(f,p);const started=Date.parse(p.logon_time||'');const hours=Number.isFinite(started)?Math.max(0,(Date.now()-started)/3600000):null;return {label:'Статус: '+st.label,hours:hours===null?'VATSIM: в сети':('В сети: '+Math.floor(hours)+' ч '+Math.floor((hours%1)*60)+' мин')};}
+function statusForList(f){
+ const p=getFlightPilot(f);
+ if(!p)return {label:'Статус: ожидание VATSIM',hours:'VATSIM: не в сети'};
+ const st=getFlightStatus(f,p),started=Date.parse(p.logon_time||'');
+ const hours=Number.isFinite(started)?Math.max(0,(Date.now()-started)/3600000):null;
+ return {label:'Статус: '+st.label,hours:hours===null?'VATSIM: в сети':('В сети: '+Math.floor(hours)+' ч '+Math.floor((hours%1)*60)+' мин')};
+}
 function render(){
  const q=$('search').value.toLowerCase();
  const list=flights.filter(f=>JSON.stringify(f).toLowerCase().includes(q));
- $('count').textContent=`Рейсов: ${list.length}`;$('empty').hidden=list.length>0;
+ $('count').textContent=`Рейсов: ${list.length}`;
+ $('empty').hidden=list.length>0;
  $('flights').innerHTML=list.map(f=>{
   const ofp=flightHasOFP(f)?'<span class="ofp-ready">🟢 OFP готов</span>':'<span class="ofp-missing">OFP не загружен</span>';
-  const docs=(f.files||[]).map(d=>{const cls=String(d.kind||'').toUpperCase()==='MEL'?'doc doc-mel':'doc';return `<a class="${cls}" href="${escapeHtml(d.url||'')}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(d.name||'Документ')}">↗️ ${escapeHtml(d.kind||'Файл')} (${escapeHtml(d.name||'Документ')})</a>`}).join('');
-  return `<tr><td><span class="flight">${escapeHtml(f.number||'')}</span><span class="small">${escapeHtml(f.date||'')}</span><span class="small flight-live-status" data-flight-status="${escapeHtml(f.id)}">${escapeHtml(statusForList(f).label)}</span><span class="small flight-live-hours" data-flight-hours="${escapeHtml(f.id)}">${escapeHtml(statusForList(f).hours)}</span></td><td><span class="route">${escapeHtml(f.from||'—')} → ${escapeHtml(f.to||'—')}</span></td><td>${escapeHtml(f.time||'—')}<span class="small">UTC</span></td><td>${escapeHtml(f.aircraft||'—')}</td><td>${escapeHtml(f.crew||'—')}</td><td>${ofp}</td><td><div class="docs">${docs||'<span class="small">Нет файлов</span>'}</div></td><td>${escapeHtml(f.notes||'—')}${f.repairs?`<span class="small">Есть тех. замечания</span>`:''}</td><td><button class="details-btn" type="button" data-details-id="${escapeHtml(f.id)}">Подробнее</button>${currentUser?`<button class="details-btn" type="button" data-edit-id="${escapeHtml(f.id)}">Редактировать</button><button class="secondary" type="button" data-delete-id="${escapeHtml(f.id)}">Удалить</button>`:''}</td></tr>`;
+  const docs=(f.files||[]).map(d=>{
+   const cls=String(d.kind||'').toUpperCase()==='MEL'?'doc doc-mel':'doc';
+   return `<a class="${cls}" href="${escapeHtml(d.url||'')}" target="_blank" rel="noopener noreferrer" title="${escapeHtml(d.name||'Документ')}">↗️ ${escapeHtml(d.kind||'Файл')} (${escapeHtml(d.name||'Документ')})</a>`;
+  }).join('');
+  return `<tr>
+   <td><span class="flight">${escapeHtml(f.number||'')}</span><span class="small">${escapeHtml(f.date||'')}</span><span class="small flight-live-status" data-flight-status="${escapeHtml(f.id)}">${escapeHtml(statusForList(f).label)}</span><span class="small flight-live-hours" data-flight-hours="${escapeHtml(f.id)}">${escapeHtml(statusForList(f).hours)}</span></td>
+   <td><span class="route">${escapeHtml(f.from||'—')} → ${escapeHtml(f.to||'—')}</span></td>
+   <td>${escapeHtml(f.time||'—')}<span class="small">UTC</span></td>
+   <td>${escapeHtml(f.aircraft||'—')}</td>
+   <td>${escapeHtml(f.crew||'—')}</td>
+   <td>${ofp}</td>
+   <td><div class="docs">${docs||'<span class="small">Нет файлов</span>'}</div></td>
+   <td>${escapeHtml(f.notes||'—')}${f.repairs?`<span class="small">Есть тех. замечания</span>`:''}</td>
+   <td><button class="details-btn" type="button" data-details-id="${escapeHtml(f.id)}">Подробнее</button>${currentUser?`<button class="details-btn" type="button" data-edit-id="${escapeHtml(f.id)}">Редактировать</button><button class="secondary" type="button" data-delete-id="${escapeHtml(f.id)}">Удалить</button>`:''}</td>
+  </tr>`;
  }).join('');
 }
 $('flights').addEventListener('click',e=>{
@@ -179,33 +362,85 @@ $('flights').addEventListener('click',e=>{
  if(edit)editFlight(edit.dataset.editId);
  if(del)deleteFlight(del.dataset.deleteId);
 });
-function safeExternalUrl(value){try{const u=new URL(String(value||''));if(u.protocol==='https:'||u.protocol==='http:')return u.href;}catch(_){}return '';}
+function safeExternalUrl(value){
+ try{const u=new URL(String(value||''));if(u.protocol==='https:'||u.protocol==='http:')return u.href;}catch(_){}
+ return '';
+}
+
+/* В окне «Подробнее» оставлены основные сведения, OFP, MEL и статус VATSIM. */
 function showFlightDetails(id){
- const f=flights.find(x=>String(x.id)===String(id));if(!f)return;
+ const f=flights.find(x=>String(x.id)===String(id));
+ if(!f)return;
  const files=Array.isArray(f.files)?f.files:[],ofp=safeExternalUrl(f.ofp_url||f.ofpUrl||'');
- const links=(kind)=>{const found=files.filter(d=>String(d.kind||'').toUpperCase()===kind.toUpperCase()&&safeExternalUrl(d.url));return found.length?found.map(d=>`<a class="detail-link ${kind.toUpperCase()==='MEL'?'detail-link-mel':''}" href="${escapeHtml(safeExternalUrl(d.url))}" target="_blank" rel="noopener noreferrer">↗️ ${escapeHtml(d.name||kind)}</a>`).join(''):'<span class="small">Документы не добавлены</span>';};
- $('detailTitle').textContent=f.number||'Рейс';$('detailRoute').textContent=`${f.from||'—'} → ${f.to||'—'}`;
- $('flightDetailsContent').innerHTML=`<div class="detail-section"><h3>Основная информация</h3><p><b>Рейс:</b> ${escapeHtml(f.number||'—')}</p><p><b>Маршрут:</b> ${escapeHtml(f.from||'—')} → ${escapeHtml(f.to||'—')}</p><p><b>Дата:</b> ${escapeHtml(f.date||'—')}</p><p><b>Вылет (UTC):</b> ${escapeHtml(f.time||'—')}</p><p><b>Плановое прибытие (UTC):</b> ${escapeHtml([f.arrival_date||f.date,f.arrival_time].filter(Boolean).join(' ')||'не указано')}</p><p><b>Позывной VATSIM:</b> ${escapeHtml(f.vatsim_callsign||'по CID / плану VATSIM')}</p><p><b>ВС:</b> ${escapeHtml(f.aircraft||'—')}</p><p><b>Экипаж:</b> ${escapeHtml(f.crew||'—')}</p></div><div class="detail-section"><h3>OFP — план полёта ${flightHasOFP(f)?'🟢':''}</h3>${ofp?`<a class="detail-link" href="${escapeHtml(ofp)}" target="_blank" rel="noopener noreferrer">↗️ Открыть OFP по ссылке</a>`:'<p class="small">Внешняя ссылка на OFP не добавлена.</p>'}<div style="margin-top:8px">${links('OFP')}</div></div><div class="detail-section" style="border-color:#f2b8b5;background:#fffdfd"><h3 style="color:#b42318">🔴 MEL — перечень неисправностей</h3>${links('MEL')}</div><div class="detail-section"><h3>Ремонты и технические замечания ВС</h3><p class="detail-notes">${escapeHtml(f.repairs||'Информация о ремонтах не добавлена.')}</p></div><div class="detail-section"><h3>Примечание / брифинг</h3><p class="detail-notes">${escapeHtml(f.notes||'Нет примечаний.')}</p></div><div class="flight-status" id="detailLiveStatus"><strong>Статус рейса</strong><span class="status-pill">Проверка VATSIM…</span></div>`;
+ const links=kind=>{
+  const found=files.filter(d=>String(d.kind||'').toUpperCase()===kind.toUpperCase()&&safeExternalUrl(d.url));
+  return found.length?found.map(d=>`<a class="detail-link ${kind.toUpperCase()==='MEL'?'detail-link-mel':''}" href="${escapeHtml(safeExternalUrl(d.url))}" target="_blank" rel="noopener noreferrer">↗️ ${escapeHtml(d.name||kind)}</a>`).join(''):'<span class="small">Документы не добавлены</span>';
+ };
+ $('detailTitle').textContent=f.number||'Рейс';
+ $('detailRoute').textContent=`${f.from||'—'} → ${f.to||'—'}`;
+ $('flightDetailsContent').innerHTML=`
+  <div class="detail-section">
+   <h3>Основная информация</h3>
+   <p><b>Рейс:</b> ${escapeHtml(f.number||'—')}</p>
+   <p><b>Маршрут:</b> ${escapeHtml(f.from||'—')} → ${escapeHtml(f.to||'—')}</p>
+   <p><b>Дата:</b> ${escapeHtml(f.date||'—')}</p>
+   <p><b>Вылет (UTC):</b> ${escapeHtml(f.time||'—')}</p>
+   <p><b>Плановое прибытие (UTC):</b> ${escapeHtml([f.arrival_date||f.date,f.arrival_time].filter(Boolean).join(' ')||'не указано')}</p>
+   <p><b>Позывной VATSIM:</b> ${escapeHtml(f.vatsim_callsign||'по CID / плану VATSIM')}</p>
+   <p><b>ВС:</b> ${escapeHtml(f.aircraft||'—')}</p>
+   <p><b>Экипаж:</b> ${escapeHtml(f.crew||'—')}</p>
+  </div>
+  <div class="detail-section">
+   <h3>OFP — план полёта ${flightHasOFP(f)?'🟢':''}</h3>
+   ${ofp?`<a class="detail-link" href="${escapeHtml(ofp)}" target="_blank" rel="noopener noreferrer">↗️ Открыть OFP по ссылке</a>`:'<p class="small">Внешняя ссылка на OFP не добавлена.</p>'}
+   <div style="margin-top:8px">${links('OFP')}</div>
+  </div>
+  <div class="detail-section" style="border-color:#f2b8b5;background:#fffdfd">
+   <h3 style="color:#b42318">🔴 MEL — перечень неисправностей</h3>
+   ${links('MEL')}
+  </div>
+  <div class="flight-status" id="detailLiveStatus">
+   <strong>Статус рейса</strong><span class="status-pill">Проверка VATSIM…</span>
+  </div>`;
  updateDetailFlightStatus(f);
  $('flightDetailsModal').classList.add('open');
 }
 $('detailCloseBtn').addEventListener('click',()=>$('flightDetailsModal').classList.remove('open'));
 $('flightDetailsModal').addEventListener('click',e=>{if(e.target===$('flightDetailsModal'))$('flightDetailsModal').classList.remove('open');});
+
 function showExistingFiles(){
- const box=$('existingFiles');if(!box)return;
+ const box=$('existingFiles');
+ if(!box)return;
  if(!editingExistingFiles.length){box.innerHTML='<span class="hint">Нет сохранённых файлов. Новые документы можно добавить ниже.</span>';return;}
  box.innerHTML=editingExistingFiles.map((d,i)=>`<div class="existing-file"><a href="${escapeHtml(d.url||'#')}" target="_blank" rel="noopener noreferrer">${escapeHtml(d.kind||'Файл')} — ${escapeHtml(d.name||'Документ')}</a><button type="button" class="danger-small" data-remove-existing="${i}">Убрать</button></div>`).join('');
 }
-$('existingFiles').addEventListener('click',e=>{const b=e.target.closest('[data-remove-existing]');if(!b)return;const d=editingExistingFiles[Number(b.dataset.removeExisting)];if(!confirm('Удалить этот документ из рейса?'))return;editingExistingFiles.splice(Number(b.dataset.removeExisting),1);showExistingFiles();});
-function resetFlightEditor(){editingFlightId=null;editingExistingFiles=[];$('flightForm').reset();clearSelectedFiles();$('flightFormTitle').textContent='Добавить рейс';$('saveFlightBtn').textContent='Сохранить рейс';showExistingFiles();}
+$('existingFiles').addEventListener('click',e=>{
+ const b=e.target.closest('[data-remove-existing]');
+ if(!b)return;
+ if(!confirm('Удалить этот документ из рейса?'))return;
+ editingExistingFiles.splice(Number(b.dataset.removeExisting),1);
+ showExistingFiles();
+});
+function resetFlightEditor(){
+ editingFlightId=null;editingExistingFiles=[];
+ $('flightForm').reset();clearSelectedFiles();
+ $('flightFormTitle').textContent='Добавить рейс';
+ $('saveFlightBtn').textContent='Сохранить рейс';
+ showExistingFiles();
+}
 function editFlight(id){
  if(!currentUser){alert('Войдите как администратор.');return;}
- const f=flights.find(x=>String(x.id)===String(id));if(!f)return;
- resetFlightEditor();editingFlightId=f.id;editingExistingFiles=Array.isArray(f.files)?f.files.map(x=>({...x})):[];
+ const f=flights.find(x=>String(x.id)===String(id));
+ if(!f)return;
+ resetFlightEditor();
+ editingFlightId=f.id;
+ editingExistingFiles=Array.isArray(f.files)?f.files.map(x=>({...x})):[];
  for(const [field,key] of [['number','number'],['aircraft','aircraft'],['from','from'],['to','to'],['date','date'],['time','time'],['arrivalDate','arrival_date'],['arrivalTime','arrival_time'],['vatsimCallsign','vatsim_callsign'],['crew','crew'],['notes','notes'],['repairs','repairs']])$(field).value=f[key]||'';
- $('ofpUrl').value=f.ofp_url||f.ofpUrl||'';$('flightFormTitle').textContent='Редактировать рейс '+(f.number||'');$('saveFlightBtn').textContent='Сохранить изменения';showExistingFiles();openModal();
+ $('ofpUrl').value=f.ofp_url||f.ofpUrl||'';
+ $('flightFormTitle').textContent='Редактировать рейс '+(f.number||'');
+ $('saveFlightBtn').textContent='Сохранить изменения';
+ showExistingFiles();openModal();
 }
-
 async function loadFlights(){
  if(!supabaseClient){showStatus('Сначала настройте config.js и Supabase.');return;}
  showStatus('Загружаю рейсы из общей базы…');
@@ -227,31 +462,66 @@ async function uploadFiles(key,kind){
  return result;
 }
 $('addBtn').onclick=()=>{if(!currentUser){alert('Войдите как администратор.');return;}resetFlightEditor();openModal()};
-$('closeBtn').onclick=()=>{closeModal();resetFlightEditor()};$('cancelBtn').onclick=()=>{closeModal();resetFlightEditor()};$('search').oninput=render;
-$('loginBtn').onclick=openLogin;$('loginClose').onclick=closeLogin;$('loginCancel').onclick=closeLogin;
-$('logoutBtn').onclick=async()=>{if(supabaseClient)await supabaseClient.auth.signOut();setAdminUI(null);render();showStatus('Вы вышли. Режим просмотра.');};
+$('closeBtn').onclick=()=>{closeModal();resetFlightEditor()};
+$('cancelBtn').onclick=()=>{closeModal();resetFlightEditor()};
+$('search').oninput=render;
+$('loginBtn').onclick=openLogin;
+$('loginClose').onclick=closeLogin;
+$('loginCancel').onclick=closeLogin;
+$('logoutBtn').onclick=async()=>{
+ if(supabaseClient)await supabaseClient.auth.signOut();
+ setAdminUI(null);render();showStatus('Вы вышли. Режим просмотра.');
+};
 $('loginForm').addEventListener('submit',async e=>{
- e.preventDefault();if(!supabaseClient){$('loginMessage').textContent='Сначала настройте config.js и Supabase.';return;}
+ e.preventDefault();
+ if(!supabaseClient){$('loginMessage').textContent='Сначала настройте config.js и Supabase.';return;}
  $('loginSubmit').disabled=true;$('loginMessage').textContent='Выполняется вход…';
- try{const {data,error}=await supabaseClient.auth.signInWithPassword({email:$('adminEmail').value.trim(),password:$('adminPassword').value});if(error)throw error;setAdminUI(data.user);closeLogin();$('loginForm').reset();$('loginMessage').textContent='';render();showStatus('Вход выполнен. Доступно управление рейсами.');}
- catch(err){$('loginMessage').textContent='Не удалось войти: '+err.message;}
+ try{
+  const {data,error}=await supabaseClient.auth.signInWithPassword({email:$('adminEmail').value.trim(),password:$('adminPassword').value});
+  if(error)throw error;
+  setAdminUI(data.user);closeLogin();$('loginForm').reset();$('loginMessage').textContent='';
+  render();showStatus('Вход выполнен. Доступно управление рейсами.');
+ }catch(err){$('loginMessage').textContent='Не удалось войти: '+err.message;}
  finally{$('loginSubmit').disabled=false;}
 });
 window.deleteFlight=async id=>{
- if(!currentUser){alert('Только администратор может удалять рейсы.');return;}if(!confirm('Удалить рейс?'))return;
- const f=flights.find(x=>String(x.id)===String(id)),{error}=await supabaseClient.from('flights').delete().eq('id',id);
+ if(!currentUser){alert('Только администратор может удалять рейсы.');return;}
+ if(!confirm('Удалить рейс?'))return;
+ const f=flights.find(x=>String(x.id)===String(id));
+ const {error}=await supabaseClient.from('flights').delete().eq('id',id);
  if(error){alert('Не удалось удалить рейс: '+error.message);return;}
  if(f&&Array.isArray(f.files)){for(const d of f.files)if(d.path)await supabaseClient.storage.from('flight-docs').remove([d.path]);}
  await loadFlights();loadVatsim();
 };
 $('flightForm').addEventListener('submit',async e=>{
- e.preventDefault();if(!currentUser){alert('Войдите как администратор.');return;}if(!supabaseClient){alert('Supabase не настроен.');return;}
- const form=e.currentTarget,submit=form.querySelector('button[type=submit]');submit.disabled=true;const original=submit.textContent;submit.textContent='Загрузка файлов и сохранение…';
+ e.preventDefault();
+ if(!currentUser){alert('Войдите как администратор.');return;}
+ if(!supabaseClient){alert('Supabase не настроен.');return;}
+ const form=e.currentTarget,submit=form.querySelector('button[type=submit]');
+ submit.disabled=true;
+ const original=submit.textContent;
+ submit.textContent='Загрузка файлов и сохранение…';
  try{
-  const ofpUrl=$('ofpUrl').value.trim();if(ofpUrl&&!/^https?:\/\//i.test(ofpUrl))throw new Error('Ссылка на OFP должна начинаться с https:// или http://');
+  const ofpUrl=$('ofpUrl').value.trim();
+  if(ofpUrl&&!/^https?:\/\//i.test(ofpUrl))throw new Error('Ссылка на OFP должна начинаться с https:// или http://');
   let files=editingFlightId?[...editingExistingFiles]:[];
   for(const [key,kind] of Object.entries(fileLabels))files=files.concat(await uploadFiles(key,kind));
-  const record={number:$('number').value.trim(),aircraft:$('aircraft').value.trim(),from:$('from').value.trim().toUpperCase(),to:$('to').value.trim().toUpperCase(),date:$('date').value,time:$('time').value,arrival_date:$('arrivalDate').value||$('date').value,arrival_time:$('arrivalTime').value,vatsim_callsign:$('vatsimCallsign').value.trim().toUpperCase(),crew:$('crew').value.trim(),notes:$('notes').value.trim(),ofp_url:ofpUrl,repairs:$('repairs').value.trim(),files};
+  const record={
+   number:$('number').value.trim(),
+   aircraft:$('aircraft').value.trim(),
+   from:$('from').value.trim().toUpperCase(),
+   to:$('to').value.trim().toUpperCase(),
+   date:$('date').value,
+   time:$('time').value,
+   arrival_date:$('arrivalDate').value||$('date').value,
+   arrival_time:$('arrivalTime').value,
+   vatsim_callsign:$('vatsimCallsign').value.trim().toUpperCase(),
+   crew:$('crew').value.trim(),
+   notes:$('notes').value.trim(),
+   ofp_url:ofpUrl,
+   repairs:$('repairs').value.trim(),
+   files
+  };
   let result;
   if(editingFlightId)result=await supabaseClient.from('flights').update(record).eq('id',editingFlightId);
   else result=await supabaseClient.from('flights').insert(record);
@@ -266,17 +536,23 @@ const TRACKED_CIDS=['1903455','1990524'];
 let latestVatsimPilots=[];
 const airborneMemory=new Set(JSON.parse(localStorage.getItem('aeroflotAirborneFlights')||'[]'));
 const arrivalMemory=JSON.parse(localStorage.getItem('aeroflotArrivalTimes')||'{}');
-function persistVatsimMemory(){localStorage.setItem('aeroflotAirborneFlights',JSON.stringify([...airborneMemory]));localStorage.setItem('aeroflotArrivalTimes',JSON.stringify(arrivalMemory));}
+function persistVatsimMemory(){
+ localStorage.setItem('aeroflotAirborneFlights',JSON.stringify([...airborneMemory]));
+ localStorage.setItem('aeroflotArrivalTimes',JSON.stringify(arrivalMemory));
+}
 function flightKey(f){return String(f.id||`${f.number||''}_${f.date||''}_${f.from||''}_${f.to||''}`);}
 function getFlightPilot(f){
  const explicit=String(f.vatsim_callsign||'').trim().toUpperCase();
  const possible=latestVatsimPilots.filter(p=>TRACKED_CIDS.includes(String(p.cid)));
- if(explicit){const exact=latestVatsimPilots.find(p=>String(p.callsign||'').trim().toUpperCase()===explicit);if(exact)return exact;}
+ if(explicit){
+  const exact=latestVatsimPilots.find(p=>String(p.callsign||'').trim().toUpperCase()===explicit);
+  if(exact)return exact;
+ }
  const matches=possible.filter(p=>{
   const fp=p.flight_plan||{};
   const call=String(p.callsign||'').toUpperCase();
   const flightNo=String(f.number||'').toUpperCase();
-  const callMatches=explicit&&call===explicit || (flightNo&&call===flightNo);
+  const callMatches=explicit&&call===explicit||(flightNo&&call===flightNo);
   const dep=String(fp.departure||'').toUpperCase(),arr=String(fp.arrival||'').toUpperCase();
   const routeMatches=dep===String(f.from||'').toUpperCase()&&arr===String(f.to||'').toUpperCase();
   return callMatches||(routeMatches&&(!explicit||call===explicit));
@@ -296,21 +572,25 @@ function getPilotPhase(p){
  return 'Полёт';
 }
 function plannedArrivalDate(f){
- const date=f.arrival_date||f.date, time=f.arrival_time;
+ const date=f.arrival_date||f.date,time=f.arrival_time;
  if(!date||!time)return null;
- const d=new Date(`${date}T${time}:00Z`);return Number.isNaN(d.getTime())?null:d;
+ const d=new Date(`${date}T${time}:00Z`);
+ return Number.isNaN(d.getTime())?null:d;
 }
 function getFlightStatus(f,p){
  const key=flightKey(f),now=Date.now(),depTime=f.date&&f.time?new Date(`${f.date}T${f.time}:00Z`).getTime():null;
- if(!p){
-  return {label:'Подготовка к вылету',cls:'status-prep',detail:'Пилот этого рейса сейчас не найден в сети VATSIM.'};
- }
+ if(!p)return {label:'Подготовка к вылету',cls:'status-prep',detail:'Пилот этого рейса сейчас не найден в сети VATSIM.'};
  const phase=getPilotPhase(p),alt=Number(p.altitude||0),gs=Number(p.groundspeed||0),fp=p.flight_plan||{};
  const hasBeenAirborne=airborneMemory.has(key);
  if(alt>500||gs>80){airborneMemory.add(key);persistVatsimMemory();}
  if(phase==='На земле / стоянка'&&hasBeenAirborne&&String(fp.arrival||'').toUpperCase()===String(f.to||'').toUpperCase()){
-  if(!arrivalMemory[key]){const planned=plannedArrivalDate(f),late=planned?now-planned>=20*60*1000:false;arrivalMemory[key]={at:new Date().toISOString(),late,hasPlan:!!planned};persistVatsimMemory();}
-  const a=arrivalMemory[key];return {label:!a.hasPlan?'Прибыл (расписание не указано)':a.late?'Прибыл с опозданием (20+ мин)':'Прибыл по расписанию',cls:a.late?'status-late':'status-arrived',detail:'Самолёт снова на земле после обнаруженного полёта; прибытие определяется приблизительно.'};
+  if(!arrivalMemory[key]){
+   const planned=plannedArrivalDate(f),late=planned?now-planned>=20*60*1000:false;
+   arrivalMemory[key]={at:new Date().toISOString(),late,hasPlan:!!planned};
+   persistVatsimMemory();
+  }
+  const a=arrivalMemory[key];
+  return {label:!a.hasPlan?'Прибыл (расписание не указано)':a.late?'Прибыл с опозданием (20+ мин)':'Прибыл по расписанию',cls:a.late?'status-late':'status-arrived',detail:'Самолёт снова на земле после обнаруженного полёта; прибытие определяется приблизительно.'};
  }
  if(depTime&&now<depTime-30*60*1000&&phase==='На земле / стоянка')return {label:'Подготовка к вылету',cls:'status-prep',detail:'До планового времени вылета ещё есть время.'};
  let label=phase;
@@ -318,23 +598,52 @@ function getFlightStatus(f,p){
  return {label,cls:phase==='Крейсерский полёт'?'status-air':phase.includes('набор')||phase.includes('Взлёт')||phase==='Снижение'||phase==='Начало снижения'?'status-air':'status-prep',detail:`CID ${p.cid} · ${p.callsign||'позывной не указан'} · ${Math.round(Number(p.altitude||0)).toLocaleString('ru-RU')} ft · ${Math.round(Number(p.groundspeed||0))} kt`};
 }
 function updateDetailFlightStatus(f){
- const el=$('detailLiveStatus');if(!el)return;
+ const el=$('detailLiveStatus');
+ if(!el)return;
  const p=getFlightPilot(f),st=getFlightStatus(f,p);
  el.innerHTML=`<strong>Статус рейса по VATSIM</strong><span class="status-pill ${st.cls}">${escapeHtml(st.label)}</span><div class="hint" style="margin-top:7px">${escapeHtml(st.detail)}</div><div class="hint" style="margin-top:5px">Оценка по открытым данным радара. Статус прибытия может быть неточным, если сайт не наблюдал весь полёт.</div>`;
 }
-function refreshOpenFlightStatus(){const modal=$('flightDetailsModal');if(!modal||!modal.classList.contains('open'))return;const title=$('detailTitle').textContent;const f=flights.find(x=>String(x.number||'')===String(title));if(f)updateDetailFlightStatus(f);}
+function refreshOpenFlightStatus(){
+ const modal=$('flightDetailsModal');
+ if(!modal||!modal.classList.contains('open'))return;
+ const title=$('detailTitle').textContent;
+ const f=flights.find(x=>String(x.number||'')===String(title));
+ if(f)updateDetailFlightStatus(f);
+}
 async function loadVatsim(){
- try{const r=await fetch('https://data.vatsim.net/v3/vatsim-data.json',{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);const data=await r.json();latestVatsimPilots=Array.isArray(data.pilots)?data.pilots:[];flights.forEach(f=>{const p=getFlightPilot(f),st=statusForList(f);const el=document.querySelector(`[data-flight-status="${CSS.escape(String(f.id))}"]`);const hr=document.querySelector(`[data-flight-hours="${CSS.escape(String(f.id))}"]`);if(el)el.textContent=st.label;if(hr)hr.textContent=st.hours;});flights.forEach(f=>{const p=getFlightPilot(f);if(p&&Number(p.altitude||0)>500)airborneMemory.add(flightKey(f));});persistVatsimMemory();refreshOpenFlightStatus();}catch(e){document.querySelectorAll('.flight-live-status').forEach(el=>el.textContent='Статус: Подготовка к вылету');document.querySelectorAll('.flight-live-hours').forEach(el=>el.textContent='VATSIM: данные недоступны');}
+ try{
+  const r=await fetch('https://data.vatsim.net/v3/vatsim-data.json',{cache:'no-store'});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  const data=await r.json();
+  latestVatsimPilots=Array.isArray(data.pilots)?data.pilots:[];
+  flights.forEach(f=>{
+   const st=statusForList(f);
+   const el=document.querySelector(`[data-flight-status="${CSS.escape(String(f.id))}"]`);
+   const hr=document.querySelector(`[data-flight-hours="${CSS.escape(String(f.id))}"]`);
+   if(el)el.textContent=st.label;
+   if(hr)hr.textContent=st.hours;
+  });
+  flights.forEach(f=>{const p=getFlightPilot(f);if(p&&Number(p.altitude||0)>500)airborneMemory.add(flightKey(f));});
+  persistVatsimMemory();refreshOpenFlightStatus();
+ }catch(e){
+  document.querySelectorAll('.flight-live-status').forEach(el=>el.textContent='Статус: Подготовка к вылету');
+  document.querySelectorAll('.flight-live-hours').forEach(el=>el.textContent='VATSIM: данные недоступны');
+ }
 }
 setInterval(loadVatsim,60000);
 
-
 (async function init(){
  setAdminUI(null);
- if(!isConfigured()){$('empty').hidden=false;$('empty').textContent='Сайт пока не подключён к общей базе. Настройте Supabase по инструкции в README_RU.md.';showStatus('Нужно настроить config.js и создать таблицу Supabase — см. README_RU.md.');render();return;}
+ if(!isConfigured()){
+  $('empty').hidden=false;
+  $('empty').textContent='Сайт пока не подключён к общей базе. Настройте Supabase по инструкции в README_RU.md.';
+  showStatus('Нужно настроить config.js и создать таблицу Supabase — см. README_RU.md.');
+  render();return;
+ }
  try{
   supabaseClient=window.supabase.createClient(window.AEROFLOT_CONFIG.url,window.AEROFLOT_CONFIG.anonKey);
-  const {data:{session}}=await supabaseClient.auth.getSession();setAdminUI(session?.user||null);
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  setAdminUI(session?.user||null);
   supabaseClient.auth.onAuthStateChange((_event,session)=>{setAdminUI(session?.user||null);render();});
   await loadFlights();loadVatsim();
  }catch(err){showStatus('Ошибка инициализации Supabase: '+err.message);}
